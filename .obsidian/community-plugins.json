@@ -10,5 +10,8 @@
   "obsidian-front-matter-title-plugin",
   "obsidian-git",
   "virtual-linker",
-  "diagram-zoom-drag"
+  "diagram-zoom-drag",
+  "recent-files-obsidian",
+  "editing-toolbar",
+  "ace-code-editor"
 ]

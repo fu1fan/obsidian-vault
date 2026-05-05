@@ -4,8 +4,8 @@
   "title": "解释 Obsidian 不支持文件的显示",
   "titleGenerationStatus": "success",
   "createdAt": 1777987881496,
-  "updatedAt": 1777987895425,
-  "lastResponseAt": 1777987895425,
+  "updatedAt": 1777990929996,
+  "lastResponseAt": 1777989742645,
   "sessionId": "019df856-16ae-7cf3-8eb4-89f2d5876f28",
   "providerState": {
     "threadId": "019df856-16ae-7cf3-8eb4-89f2d5876f28",
@@ -13,13 +13,13 @@
     "transcriptRootPath": "/Users/inspyre/.codex/sessions"
   },
   "usage": {
-    "inputTokens": 13223,
+    "inputTokens": 35768,
     "cacheCreationInputTokens": 0,
-    "cacheReadInputTokens": 6528,
+    "cacheReadInputTokens": 13184,
     "contextWindow": 258400,
     "contextWindowIsAuthoritative": true,
-    "contextTokens": 13223,
-    "percentage": 5,
+    "contextTokens": 35768,
+    "percentage": 14,
     "model": "gpt-5.5"
   }
 }

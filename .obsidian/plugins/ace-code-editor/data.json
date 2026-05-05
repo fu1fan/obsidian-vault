@@ -1,0 +1,34 @@
+{
+  "supportExtensions": [
+    "js",
+    "tex",
+    "bib",
+    "bibtex",
+    "latex"
+  ],
+  "lightTheme": "chrome",
+  "darkTheme": "monokai",
+  "keyboard": "default",
+  "showLineNumbers": true,
+  "fontSize": 14,
+  "fontFamily": [
+    "Consolas",
+    "Courier New",
+    "monospace"
+  ],
+  "tabSize": 4,
+  "snippetsManager": {
+    "location": false,
+    "icon": "code"
+  },
+  "showPrintMargin": true,
+  "showInvisibles": false,
+  "displayIndentGuides": true,
+  "showFoldWidgets": true,
+  "embedMaxHeight": 500,
+  "wrap": true,
+  "minimap": {
+    "enabled": true,
+    "mode": "always"
+  }
+}
