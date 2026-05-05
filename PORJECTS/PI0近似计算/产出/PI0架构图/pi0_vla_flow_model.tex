@@ -125,7 +125,7 @@
 ] (backbone) at (16.25,9.52) {};
 
 \node[font=\sffamily\bfseries\large, align=center, text width=5.3cm] at (16.25,15.38)
-  {Pre-trained VLM Backbone\\[-1pt]{\normalsize (PaliGemma / Gemma-like)}};
+  {Pre-trained VLM Backbone\\[-1pt]{\normalsize (PaliGemma-initialized)}};
 
 \node[
   draw=vlblue!55, line width=0.8pt, rounded corners=8pt, fill=white, fill opacity=0.60,
@@ -173,8 +173,8 @@
 \node[regionlabel, text=actionorange!85!black] at (29.30,13.62)
   {$\pi_0$-specific VLA Action Path};
 
-\node[greenbox, minimum width=2.65cm, text width=2.32cm] (noisy) at (24.32,14.65)
-  {Noisy Action\\Chunk};
+\node[greenbox, minimum width=2.65cm, minimum height=1.46cm, text width=2.32cm] (noisy) at (24.32,14.65)
+  {Noisy Action\\Chunk\\[2pt]{\scriptsize $A_t^\tau$}};
 
 \node[orangebox, minimum width=2.55cm, minimum height=0.80cm, text width=2.25cm,
   font=\sffamily\bfseries\scriptsize] (acttime) at (24.05,13.25)
@@ -227,8 +227,8 @@
 \draw[optarrow] (coActionMLP.west) -- (mlp.east);
 
 % Flow matching path
-\node[orangebox, minimum width=3.05cm, text width=2.75cm] (flowmatch) at (30.95,11.75)
-  {Flow Matching\\Module};
+\node[orangebox, minimum width=3.05cm, minimum height=1.28cm, text width=2.75cm] (flowmatch) at (30.95,11.75)
+  {Flow Matching\\Sampler /\\Integration};
 \node[orangebox, minimum width=3.05cm, text width=2.72cm] (vel) at (30.95,9.65)
   {Velocity\\Field};
 
