@@ -1,0 +1,25 @@
+{
+  "id": "conv-1777987881496-7ermfomzx",
+  "providerId": "codex",
+  "title": "解释 Obsidian 不支持文件的显示",
+  "titleGenerationStatus": "success",
+  "createdAt": 1777987881496,
+  "updatedAt": 1777987895425,
+  "lastResponseAt": 1777987895425,
+  "sessionId": "019df856-16ae-7cf3-8eb4-89f2d5876f28",
+  "providerState": {
+    "threadId": "019df856-16ae-7cf3-8eb4-89f2d5876f28",
+    "sessionFilePath": "/Users/inspyre/.codex/sessions/2026/05/05/rollout-2026-05-05T21-31-24-019df856-16ae-7cf3-8eb4-89f2d5876f28.jsonl",
+    "transcriptRootPath": "/Users/inspyre/.codex/sessions"
+  },
+  "usage": {
+    "inputTokens": 13223,
+    "cacheCreationInputTokens": 0,
+    "cacheReadInputTokens": 6528,
+    "contextWindow": 258400,
+    "contextWindowIsAuthoritative": true,
+    "contextTokens": 13223,
+    "percentage": 5,
+    "model": "gpt-5.5"
+  }
+}
