@@ -20,6 +20,7 @@
   every node/.style={font=\sffamily},
   flow/.style={-{Latex[length=2.6mm,width=2.1mm]}, line width=0.85pt, draw=black},
   plainline/.style={line width=0.85pt, draw=black},
+  repeatbrace/.style={decorate, decoration={brace,amplitude=4.0pt}, line width=0.55pt, draw=black},
   optarrow/.style={-{Latex[length=2.4mm,width=2mm]}, line width=0.75pt, draw=optred, dashed},
   vlbox/.style={
     draw=vlblue, line width=0.75pt, rounded corners=4pt,
@@ -126,11 +127,10 @@
 \draw[flow] (rms2.south) -- (ffn.north);
 \draw[flow] (ffn.south) -- (add2.north);
 
-\draw[flow] ([xshift=0.25cm]rms1.east) -- ++(0.55,0) |- ([xshift=0.05cm]add1.east);
-\draw[flow] ([xshift=0.25cm]rms2.east) -- ++(0.55,0) |- ([xshift=0.05cm]add2.east);
-\draw[plainline] (15.0,14.72) -- (14.45,14.72) -- (14.45,3.88) -- (15.0,3.88);
-\draw[decorate,decoration={brace,amplitude=4.5pt}] (13.83,3.55) -- (13.83,14.45)
-  node[midway,left=6pt,font=\sffamily\bfseries\footnotesize] {Nx};
+\draw[flow] ([xshift=0.18cm]rms1.east) -- ++(0.46,0) |- ([xshift=0.04cm]add1.east);
+\draw[flow] ([xshift=0.18cm]rms2.east) -- ++(0.46,0) |- ([xshift=0.04cm]add2.east);
+\draw[repeatbrace] (14.10,3.65) -- (14.10,14.35)
+  node[pos=0.44,left=5pt,font=\sffamily\bfseries\footnotesize] {Nx};
 
 \draw[flow] (concat.east) -- (backbone.west);
 
@@ -174,10 +174,10 @@
 \draw[flow] (ar2.south) -- (mlp.north);
 \draw[flow] (mlp.south) -- (aa2.north);
 
-\draw[flow] ([xshift=0.20cm]ar1.east) -- ++(0.55,0) |- ([xshift=0.04cm]aa1.east);
-\draw[flow] ([xshift=0.20cm]ar2.east) -- ++(0.55,0) |- ([xshift=0.04cm]aa2.east);
-\draw[decorate,decoration={brace,amplitude=4.5pt,mirror}] (23.75,5.45) -- (23.75,12.15)
-  node[midway,left=6pt,font=\sffamily\bfseries\footnotesize] {Nx};
+\draw[flow] ([xshift=0.12cm]ar1.east) -- ++(0.34,0) |- ([xshift=0.03cm]aa1.east);
+\draw[flow] ([xshift=0.12cm]ar2.east) -- ++(0.34,0) |- ([xshift=0.03cm]aa2.east);
+\draw[repeatbrace] (24.10,5.45) -- (24.10,12.08)
+  node[pos=0.39,left=5pt,font=\sffamily\bfseries\footnotesize] {Nx};
 
 \draw[flow] (hidden.east) -- (expert.west);
 \draw[flow] (noisy.south) -- ++(0,-0.50) -| ([xshift=-0.72cm]expert.north);
@@ -186,7 +186,7 @@
   {Flow Timestep $t$};
 \draw[flow] (timestep.north) -- ++(0,0.92) -| ([xshift=-0.75cm]expert.south);
 
-\node[callout, minimum width=2.45cm] (coGeluA) at (25.40,4.80) {GELU / SiLU};
+\node[callout, minimum width=2.45cm] (coGeluA) at (26.05,4.80) {GELU / SiLU};
 \draw[optarrow] (coGeluA.north) -- (aa2.south);
 
 % Flow matching path

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.16)  5 MAY 2026 17:26
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.16)  5 MAY 2026 19:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -635,55 +635,55 @@ LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
 (Font)                  OT1/cmss/bx/n --> TU/lmss/b/n on input line 17.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 (Font)                  OT1/cmtt/m/n --> TU/lmtt/b/n on input line 17.
-LaTeX Font Info:    Calculating math sizes for size <26> on input line 65.
+LaTeX Font Info:    Calculating math sizes for size <26> on input line 66.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <26> not available
-(Font)              size <24.88> substituted on input line 65.
+(Font)              size <24.88> substituted on input line 66.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <18.19992> not available
-(Font)              size <17.28> substituted on input line 65.
+(Font)              size <17.28> substituted on input line 66.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <13> not available
-(Font)              size <12> substituted on input line 65.
+(Font)              size <12> substituted on input line 66.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <26> not available
-(Font)              size <24.88> substituted on input line 65.
+(Font)              size <24.88> substituted on input line 66.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <18.19992> not available
-(Font)              size <17.28> substituted on input line 65.
+(Font)              size <17.28> substituted on input line 66.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <13> not available
-(Font)              size <12> substituted on input line 65.
+(Font)              size <12> substituted on input line 66.
 
 
 LaTeX Font Warning: Font shape `OMX/cmex/m/n' in size <26> not available
-(Font)              size <24.88> substituted on input line 65.
+(Font)              size <24.88> substituted on input line 66.
 
 
 LaTeX Font Warning: Font shape `OMX/cmex/m/n' in size <18.19992> not available
-(Font)              size <17.28> substituted on input line 65.
+(Font)              size <17.28> substituted on input line 66.
 
 
 LaTeX Font Warning: Font shape `OMX/cmex/m/n' in size <13> not available
-(Font)              size <12> substituted on input line 65.
+(Font)              size <12> substituted on input line 66.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <26> not available
-(Font)              size <24.88> substituted on input line 65.
+(Font)              size <24.88> substituted on input line 66.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <18.19992> not available
-(Font)              size <17.28> substituted on input line 65.
+(Font)              size <17.28> substituted on input line 66.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <13> not available
-(Font)              size <12> substituted on input line 65.
+(Font)              size <12> substituted on input line 66.
 
 [1
 
@@ -699,12 +699,12 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 17139 strings out of 468168
- 402711 string characters out of 5432815
- 1132729 words of memory out of 5000000
- 45560 multiletter control sequences out of 15000+600000
+ 17142 strings out of 468168
+ 402788 string characters out of 5432815
+ 1132823 words of memory out of 5000000
+ 45563 multiletter control sequences out of 15000+600000
  634085 words of font info for 90 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 117i,10n,121p,412b,1108s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 117i,10n,121p,412b,1110s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 Output written on pi0_vla_flow_model.pdf (1 page).
