@@ -1,4 +1,4 @@
-\documentclass[10pt]{beamer}
+\documentclass[10pt, aspectratio=169]{beamer}
 
 \usepackage[T1]{fontenc}
 
@@ -36,19 +36,57 @@
 
 \begin{frame}[fragile]
   \frametitle{研究切入点}
-  \begin{column}{0.48\texwidth}
-    
-  \end{column}
 
-%   The Moloch theme is a Beamer theme with minimal visual noise. It is a fork of the
-%   \href{https://github.com/matze/mtheme}{metropolis theme} by Matthias Vogelgesang, which in
-%   turn was inspired by by the \href{https://github.com/hsrmbeamertheme/hsrmbeamertheme}{hsrm
-%     theme} by Benjamin Weiss. \medskip
+  \begin{columns}[T,onlytextwidth]
+    \column{0.54\textwidth}
 
-%   Enable the theme by calling
-%   \begin{verbatim}\documentclass{beamer}
-% \usetheme{moloch}\end{verbatim}
+    \begin{block}{$\pi_0$ 的模型特点}
+      \small
+      在视觉--语言模型的基础上，$\pi_0$ 进一步面向机器人控制任务，
+      其核心区别在于：
+
+      \vspace{4pt}
+      \begin{itemize}
+        \item VLM Backbone / Action Expert 分工带来 Prefix-Suffix 推理模式；
+        \item 输出不是文本 token，而是未来一段连续动作；
+        \item 动作生成采用 Flow Matching，需要多步迭代去噪；
+        \item VLM backbone 提供视觉语言上下文，Action Expert 负责动作建模。
+      \end{itemize}
+    \end{block}
+
+    \begin{alertblock}{因此研究重点发生变化}
+      \small
+      FPGA 优化对象不只是不只是普通 VLM 中的图像编码和语言生成，
+      还需要关注 $\pi_0$ 中反复出现、硬件代价高的模块：
+
+      \vspace{3pt}
+      \begin{itemize}
+        \item Linear / GEMM 与 Projector；
+        \item Attention Softmax；
+        \item MLP 中的 Swish/GELU 等激活；
+        \item Flow Matching 中重复调用的 Action Expert。
+      \end{itemize}
+    \end{alertblock}
+
+    \column{0.43\textwidth}
+
+    \begin{exampleblock}{原题（概括）}
+    \footnotesize
+    近年来，VLM（如 $\pi_0$）通过“视觉编码器 + 投影网络 + 语言模型”实现跨模态推理，但其大规模参数和复杂计算使其在 FPGA 边缘部署中面临资源、带宽与功耗压力。
+
+    \vspace{6pt}
+    \textbf{任务一：分析 $\pi_0$ 推理架构与 FPGA 部署瓶颈。} \\
+    说明推理阶段的数据流：图像经 ViT 等视觉编码器提取特征，再由投影网络映射到语言模型嵌入空间，作为视觉 token 参与后续生成。结合 FPGA 的 LUT、BRAM、DSP 等资源，分析矩阵乘法与注意力计算复杂度高、模型参数和中间激活占用存储大、片外访存带宽压力大，以及定点化精度控制困难等问题。
+
+    \vspace{6pt}
+    \textbf{任务二：设计一种面向 $\pi_0$ 的近似计算优化方案。} \\
+    量化方向：对视觉编码器、投影层和语言模型中的 Linear、Attention、FFN 等模块进行 INT8/INT4 或混合精度量化，利用 FPGA DSP 定点乘加加速；\\
+    神经网络替代方向：用分段线性函数、查表法或低秩近似替代复杂非线性激活、高维矩阵运算或部分注意力计算，并评估误差与硬件资源收益。
+    \end{exampleblock}
+
+  \end{columns}
 \end{frame}
+
 \begin{frame}[fragile]
   \frametitle{Sections}
   Sections group slides of the same topic by introducing a section page between them. A progress bar is shown which indicates how far along in the presentation you are.

@@ -94,7 +94,9 @@
 \foreach \a/\b in {images/vision,vision/vproj,vproj/itokens,lang/embed,embed/ttokens,robot/sproj,sproj/stoken}
   \draw[flow] (\a.east) -- (\b.west);
 
-\draw[flow] (itokens.east) -| (concat.north);
+\coordinate (imageTokenOut) at ([xshift=0.68cm]itokens.east);
+\draw[flow] (itokens.east) -- (imageTokenOut);
+\draw[plainline] (imageTokenOut) |- (concat.north);
 \draw[flow] (ttokens.east) -- (concat.west |- ttokens.east);
 \draw[flow] (stoken.east) -- (concat.west |- stoken.east);
 
@@ -138,7 +140,7 @@
 
 \draw[flow] ([xshift=0.18cm]rms1.east) -- ++(0.46,0) |- ([xshift=0.04cm]add1.east);
 \draw[flow] ([xshift=0.18cm]rms2.east) -- ++(0.46,0) |- ([xshift=0.04cm]add2.east);
-\draw[repeatbrace] (14.10,3.65) -- (14.10,14.35)
+\draw[repeatbrace] (13.72,3.65) -- (13.72,14.35)
   node[pos=0.44,left=5pt,font=\sffamily\bfseries\footnotesize] {Nx};
 
 \draw[flow] (concat.east) -- (backbone.west);
@@ -198,9 +200,9 @@
 \draw[flow] (noisy.south) -- (acttime.north);
 \draw[flow] (acttime.south) -- ([xshift=-1.30cm]expert.north);
 
-\node[greenbox, minimum width=3.0cm, text width=2.65cm] (timestep) at (22.50,3.60)
+\node[greenbox, minimum width=2.75cm, text width=2.40cm] (timestep) at (21.20,14.65)
   {Flow Timestep $t$};
-\draw[flow] (timestep.north) -- ++(0,0.72) |- (acttime.west);
+\draw[flow] (timestep.south east) -- (acttime.north west);
 \draw[flowclear] (hidden.east) -- (expert.west);
 
 \node[callout, minimum width=2.45cm] (coGeluA) at (26.05,4.80) {GELU / SiLU};
