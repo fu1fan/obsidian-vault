@@ -34,7 +34,7 @@
 
 \section{Introduction}
 
-\begin{frame}[fragile]
+\begin{frame}
   \frametitle{研究切入点}
 
   \begin{columns}[T,onlytextwidth]
@@ -89,11 +89,17 @@
   \end{columns}
 \end{frame}
 
+\begin{frame}
+\frametitle{$\pi_0$模型数据流}
+\centering
+\includegraphics[width=.96\textwidth,height=.90\textheight,keepaspectratio]{assets/pi0_vla_flow_model.pdf}
+\end{frame}
+
 \begin{frame}[fragile]
   \frametitle{Sections}
   Sections group slides of the same topic by introducing a section page between them. A progress bar is shown which indicates how far along in the presentation you are.
 
-  \begin{verbatim}\section{Title Formats}\end{verbatim}
+  \verb|\section{Title Formats}|
 \end{frame}
 
 \section{Title Formats}
@@ -110,7 +116,7 @@
 
   They can either be set globally for every frame or used locally just for the current frame
   and onwards by using
-  \begin{verbatim}\molochset{titleformat frame=<option>}\end{verbatim}
+  \verb|\molochset{titleformat frame=<option>}|
 \end{frame}
 
 {
@@ -371,7 +377,7 @@
 \begin{frame}[fragile]
   \frametitle{Frame Footer}
   Moloch defines a custom beamer template to add a text to the footer. It can be set via
-  \begin{verbatim}\setbeamertemplate{frame footer}{My custom footer}\end{verbatim}
+  \verb|\setbeamertemplate{frame footer}{My custom footer}|
 \end{frame}
 }
 
