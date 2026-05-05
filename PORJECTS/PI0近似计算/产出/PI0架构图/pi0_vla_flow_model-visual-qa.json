@@ -1,0 +1,23 @@
+{
+  "pdf": "/Users/inspyre/Documents/Obsidian Vault/PORJECTS/PI0\u8fd1\u4f3c\u8ba1\u7b97/\u4ea7\u51fa/PI0\u67b6\u6784\u56fe/pi0_vla_flow_model.pdf",
+  "mode": "teaching",
+  "text_plot_overlap_check": false,
+  "plot_label_regex": null,
+  "page": {
+    "width": 997.8400268554688,
+    "height": 520.2000122070312
+  },
+  "text_box_count": 84,
+  "title": {
+    "text": "\u03c00Vision-Language-ActionFlowModel",
+    "x0": 268.42999267578125,
+    "y0": 7.427255630493164,
+    "x1": 733.6642456054688,
+    "y1": 33.741981506347656,
+    "colors": [
+      0
+    ]
+  },
+  "issues": [],
+  "status": "pass"
+}
