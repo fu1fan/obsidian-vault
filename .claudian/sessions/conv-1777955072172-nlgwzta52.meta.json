@@ -1,0 +1,25 @@
+{
+  "id": "conv-1777955072172-nlgwzta52",
+  "providerId": "codex",
+  "title": "推荐 Obsidian 双向链接插件",
+  "titleGenerationStatus": "success",
+  "createdAt": 1777955072173,
+  "updatedAt": 1777955121495,
+  "lastResponseAt": 1777955121495,
+  "sessionId": "019df661-7269-7280-9915-4129a492cc2f",
+  "providerState": {
+    "threadId": "019df661-7269-7280-9915-4129a492cc2f",
+    "sessionFilePath": "/Users/inspyre/.codex/sessions/2026/05/05/rollout-2026-05-05T12-24-34-019df661-7269-7280-9915-4129a492cc2f.jsonl",
+    "transcriptRootPath": "/Users/inspyre/.codex/sessions"
+  },
+  "usage": {
+    "inputTokens": 29330,
+    "cacheCreationInputTokens": 0,
+    "cacheReadInputTokens": 6528,
+    "contextWindow": 258400,
+    "contextWindowIsAuthoritative": true,
+    "contextTokens": 29330,
+    "percentage": 11,
+    "model": "gpt-5.5"
+  }
+}

@@ -64,22 +64,30 @@ $$
 
 ## 3. 与标准 Transformer 的主要不同点
 
+Gemma-2B 总体计算流程：
 ```mermaid
 flowchart TB
-    A[Input Token IDs / Visual Tokens] --> B[Embedding]
-    B --> C[Embedding Scaling<br/>multiply sqrt d_model]
-    C --> D[Gemma Decoder Block x 18]
+    A[Input] --> B[Embedding]
+    B --> C[× sqrt d]
+    C --> D[Block ×18]
     D --> E[Final RMSNorm]
-    E --> F[LM Head<br/>tied with token embedding]
+    E --> F[Tied LM Head]
     F --> G[Logits]
+```
 
-    subgraph Block[Gemma Decoder Block]
-        H[RMSNorm] --> I[MQA + RoPE]
-        I --> J[Residual Add]
-        J --> K[RMSNorm]
-        K --> L[Gated MLP]
-        L --> M[Residual Add]
-    end
+单个 Gemma decoder block 内部结构：
+
+```mermaid
+flowchart TB
+    A[H] --> B[RMSNorm]
+    B --> C[MQA + RoPE]
+    C --> D[+ Residual]
+    A --> D
+    D --> E[RMSNorm]
+    E --> F[Gated MLP]
+    F --> G[+ Residual]
+    D --> G
+    G --> H[H_next]
 ```
 
 和普通 Transformer decoder 相比，重点差异是：

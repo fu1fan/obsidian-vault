@@ -8,5 +8,6 @@
   "dataview",
   "obsidian-latex-suite",
   "obsidian-front-matter-title-plugin",
-  "obsidian-git"
+  "obsidian-git",
+  "virtual-linker"
 ]

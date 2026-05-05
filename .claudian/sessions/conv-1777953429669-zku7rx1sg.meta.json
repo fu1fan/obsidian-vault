@@ -1,0 +1,25 @@
+{
+  "id": "conv-1777953429669-zku7rx1sg",
+  "providerId": "codex",
+  "title": "Fix Media Extended cover save path",
+  "titleGenerationStatus": "success",
+  "createdAt": 1777953429670,
+  "updatedAt": 1777955010300,
+  "lastResponseAt": 1777953492218,
+  "sessionId": "019df648-61b5-7ae2-ac40-9f8566fc73cc",
+  "providerState": {
+    "threadId": "019df648-61b5-7ae2-ac40-9f8566fc73cc",
+    "sessionFilePath": "/Users/inspyre/.codex/sessions/2026/05/05/rollout-2026-05-05T11-57-11-019df648-61b5-7ae2-ac40-9f8566fc73cc.jsonl",
+    "transcriptRootPath": "/Users/inspyre/.codex/sessions"
+  },
+  "usage": {
+    "inputTokens": 31590,
+    "cacheCreationInputTokens": 0,
+    "cacheReadInputTokens": 31104,
+    "contextWindow": 258400,
+    "contextWindowIsAuthoritative": true,
+    "contextTokens": 31590,
+    "percentage": 12,
+    "model": "gpt-5.5"
+  }
+}

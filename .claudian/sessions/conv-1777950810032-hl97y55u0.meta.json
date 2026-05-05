@@ -4,8 +4,8 @@
   "title": "Explain the paper's main ideas",
   "titleGenerationStatus": "success",
   "createdAt": 1777950810032,
-  "updatedAt": 1777952322996,
-  "lastResponseAt": 1777952322996,
+  "updatedAt": 1777952734968,
+  "lastResponseAt": 1777952734968,
   "sessionId": "019df620-6045-7963-bbea-294dadbb8a3f",
   "providerState": {
     "threadId": "019df620-6045-7963-bbea-294dadbb8a3f",
@@ -14,12 +14,12 @@
   },
   "currentNote": "libs/biblib/beyerpaligemma2024/beyerpaligemma2024.pdf",
   "usage": {
-    "inputTokens": 58684,
+    "inputTokens": 58592,
     "cacheCreationInputTokens": 0,
-    "cacheReadInputTokens": 46976,
+    "cacheReadInputTokens": 57728,
     "contextWindow": 258400,
     "contextWindowIsAuthoritative": true,
-    "contextTokens": 58684,
+    "contextTokens": 58592,
     "percentage": 23,
     "model": "gpt-5.5"
   }
