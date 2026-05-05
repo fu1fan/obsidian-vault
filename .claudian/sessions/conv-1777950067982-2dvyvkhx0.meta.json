@@ -1,0 +1,25 @@
+{
+  "id": "conv-1777950067982-2dvyvkhx0",
+  "providerId": "codex",
+  "title": "Debug YAML related paper link",
+  "titleGenerationStatus": "success",
+  "createdAt": 1777950067982,
+  "updatedAt": 1777952169522,
+  "lastResponseAt": 1777950178420,
+  "sessionId": "019df615-16cb-73f2-8288-ab5f12324462",
+  "providerState": {
+    "threadId": "019df615-16cb-73f2-8288-ab5f12324462",
+    "sessionFilePath": "/Users/inspyre/.codex/sessions/2026/05/05/rollout-2026-05-05T11-01-10-019df615-16cb-73f2-8288-ab5f12324462.jsonl",
+    "transcriptRootPath": "/Users/inspyre/.codex/sessions"
+  },
+  "usage": {
+    "inputTokens": 19294,
+    "cacheCreationInputTokens": 0,
+    "cacheReadInputTokens": 18816,
+    "contextWindow": 258400,
+    "contextWindowIsAuthoritative": true,
+    "contextTokens": 19294,
+    "percentage": 7,
+    "model": "gpt-5.5"
+  }
+}

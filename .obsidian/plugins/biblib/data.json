@@ -1,7 +1,7 @@
 {
   "attachmentFolderPath": "libs/biblib",
   "literatureNotePath": "/",
-  "filenameTemplate": "@{{citekey}} - {{title}} ",
+  "filenameTemplate": "@{{citekey}} - {{title}}",
   "createAttachmentSubfolder": true,
   "bibliographyJsonPath": "libs/biblib/bibliography.json",
   "citekeyListPath": "libs/biblib/citekeylist.md",

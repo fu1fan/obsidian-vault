@@ -45,7 +45,8 @@
       "environmentVariables": "PATH=/Users/inspyre/.local/state/fnm_multishells/66044_1777715932019/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin",
       "environmentHash": "",
       "installationMethodsByHost": {
-        "fuyifandeAir.lan": "native-windows"
+        "fuyifandeAir.lan": "native-windows",
+        "fuyifandeMacBook-Air.local": "native-windows"
       },
       "wslDistroOverridesByHost": {}
     },
@@ -68,7 +69,7 @@
   },
   "savedProviderEffort": {
     "claude": "high",
-    "codex": "high"
+    "codex": "medium"
   },
   "savedProviderServiceTier": {
     "codex": "default"

@@ -1,0 +1,26 @@
+{
+  "id": "conv-1777950810032-hl97y55u0",
+  "providerId": "codex",
+  "title": "Explain the paper's main ideas",
+  "titleGenerationStatus": "success",
+  "createdAt": 1777950810032,
+  "updatedAt": 1777952322996,
+  "lastResponseAt": 1777952322996,
+  "sessionId": "019df620-6045-7963-bbea-294dadbb8a3f",
+  "providerState": {
+    "threadId": "019df620-6045-7963-bbea-294dadbb8a3f",
+    "sessionFilePath": "/Users/inspyre/.codex/sessions/2026/05/05/rollout-2026-05-05T11-13-30-019df620-6045-7963-bbea-294dadbb8a3f.jsonl",
+    "transcriptRootPath": "/Users/inspyre/.codex/sessions"
+  },
+  "currentNote": "libs/biblib/beyerpaligemma2024/beyerpaligemma2024.pdf",
+  "usage": {
+    "inputTokens": 58684,
+    "cacheCreationInputTokens": 0,
+    "cacheReadInputTokens": 46976,
+    "contextWindow": 258400,
+    "contextWindowIsAuthoritative": true,
+    "contextTokens": 58684,
+    "percentage": 23,
+    "model": "gpt-5.5"
+  }
+}

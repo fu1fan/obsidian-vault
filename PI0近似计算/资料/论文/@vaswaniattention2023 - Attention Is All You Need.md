@@ -53,7 +53,6 @@ author-links:
   - "[[Author/Illia Polosukhin]]"
 attachment:
   - "[[libs/biblib/vaswaniattention2023/vaswaniattention2023.pdf|PDF]]"
-  - "[[libs/biblib/vaswaniattention2023/vaswaniattention2023.html|HTML]]"
 related:
   - []
 ---

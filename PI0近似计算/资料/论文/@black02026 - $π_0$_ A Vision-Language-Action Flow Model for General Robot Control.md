@@ -102,13 +102,18 @@ author-links:
   - "[[Author/Ury Zhilinsky]]"
 attachment:
   - "[[libs/biblib/black02026/black02026.pdf|PDF]]"
-  - "[[libs/biblib/black02026/black02026.html|HTML]]"
 related:
-  - []
+  - "[[@beyerpaligemma2024 - PaliGemma_ A versatile 3B VLM for transfer|PaliGemma: A versatile 3B VLM for transfer]]"
+  - "[[@vaswaniattention2023 - Attention Is All You Need|Attention Is All You Need]]"
+month: "1"
+day: "8"
 ---
+
 # $π_0$: A Vision-Language-Action Flow Model for General Robot Control 
 *约定*
-黄色为帮助理解的重要内容
+	黄色为帮助理解的重要内容
+	红色为概念
+	蓝色为逻辑
 
  *笔记*
 
