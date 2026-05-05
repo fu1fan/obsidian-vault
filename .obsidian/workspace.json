@@ -4,6 +4,28 @@
     "type": "split",
     "children": [
       {
+        "id": "961f28a742034a53",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9519bae7dadb1763",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "libs/biblib/vaswaniattention2023/vaswaniattention2023.pdf",
+                "page": 3,
+                "left": -21,
+                "top": 461,
+                "zoom": 0.7377450980392157
+              },
+              "icon": "lucide-file-text",
+              "title": "vaswaniattention2023"
+            }
+          }
+        ]
+      },
+      {
         "id": "cce0d84028e32dc1",
         "type": "tabs",
         "children": [
@@ -13,13 +35,13 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "PORJECTS/PI0近似计算/产出/FPGA部署瓶颈.md",
+                "file": "PORJECTS/PI0近似计算/资料/论文/@vaswaniattention2023 - Attention Is All You Need.md",
                 "mode": "source",
                 "source": false,
                 "backlinks": false
               },
               "icon": "lucide-file",
-              "title": "FPGA部署瓶颈"
+              "title": "@vaswaniattention2023 - Attention Is All You Need"
             }
           }
         ]
@@ -95,7 +117,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "PORJECTS/PI0近似计算/产出/FPGA部署瓶颈.md",
+                "file": "libs/biblib/vaswaniattention2023/vaswaniattention2023.pdf",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -105,7 +127,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "FPGA部署瓶颈 的反向链接列表"
+              "title": "vaswaniattention2023 的反向链接列表"
             }
           },
           {
@@ -114,12 +136,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "PORJECTS/PI0近似计算/产出/FPGA部署瓶颈.md",
+                "file": "libs/biblib/vaswaniattention2023/vaswaniattention2023.pdf",
                 "linksCollapsed": true,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "FPGA部署瓶颈 的出链列表"
+              "title": "vaswaniattention2023 的出链列表"
             }
           },
           {
@@ -157,13 +179,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "PORJECTS/PI0近似计算/产出/FPGA部署瓶颈.md",
+                "file": "libs/biblib/vaswaniattention2023/vaswaniattention2023.pdf",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "FPGA部署瓶颈 的大纲"
+              "title": "vaswaniattention2023 的大纲"
             }
           },
           {
@@ -215,11 +237,14 @@
       "publish:发布更改": false
     }
   },
-  "active": "a35e9ff746515581",
+  "active": "9519bae7dadb1763",
   "lastOpenFiles": [
+    "PORJECTS/PI0近似计算/资料/论文/@vaswaniattention2023 - Attention Is All You Need.md",
+    "libs/media-lib/assets/mx-cover-bilibili_bv_BV1xoJwzDESD.jpg",
+    "deep-research-report.md",
+    "PORJECTS/PI0近似计算/产出/FPGA部署瓶颈.md",
     "PORJECTS/PI0近似计算/资料/其他/考题原文.md",
     "PORJECTS/PI0近似计算/00.项目背景.md",
-    "PORJECTS/PI0近似计算/产出/FPGA部署瓶颈.md",
     "PORJECTS/PI0近似计算/产出/π0 推理架构分析.md",
     "PORJECTS/PI0近似计算/整理/模型架构/SigLIP ViT-So400m.md",
     "PORJECTS/PI0近似计算/整理/模型架构/Transformer.canvas",
@@ -241,7 +266,6 @@
     "PORJECTS/PI0近似计算/资料/AMD技术文档",
     "PORJECTS/PI0近似计算/资料/论文/@black02026 - $π_0$_ A Vision-Language-Action Flow Model for General Robot Control.md",
     "PORJECTS/PI0近似计算/资料/论文/@beyerpaligemma2024 - PaliGemma_ A versatile 3B VLM for transfer.md",
-    "PORJECTS/PI0近似计算/资料/论文/@vaswaniattention2023 - Attention Is All You Need.md",
     "libs/media-lib/url-b5s1i7fd.md",
     "PORJECTS/PI0近似计算/资料/其他/ChatGPT PI0论文导读.md",
     "PI0近似计算/整理/模型架构/Transformer.md",
@@ -251,13 +275,11 @@
     "PORJECTS/PI0近似计算/资料/其他/Hand-Drawn-Transformer-main/Transformer/Transformer-Transformer.png",
     "GitHub - An-Jhon - Hand-Drawn-Transformer -  纯手工绘制 Transformer 架构图；Drawing the Transformer architecture diagram by hand.md",
     "().md",
-    "libs/media-lib/assets/mx-cover-bilibili_bv_BV1xoJwzDESD.jpg",
     "mx-cover-bilibili_bv_BV1xoJwzDESD.jpg",
     "libs/media-lib/url-fsmjfx0g.md",
     "libs/media-lib/url-rl08snzc.md",
     "libs/media-lib/url-sinx58kg.md",
     "PORJECTS/PI0近似计算/资料/论文/@unknown250113379 - [2501.13379] A Quantitative Evaluation of Approximate Softmax Functions for Deep Neural Networks.md",
-    "PI0近似计算/未命名.md",
     "mx-cover-bilibili_bv_BV18a411r7mt.jpg",
     "未命名 1.canvas"
   ]
