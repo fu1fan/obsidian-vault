@@ -1,0 +1,25 @@
+{
+  "id": "conv-1777897818638-0gk8dcxhf",
+  "providerId": "codex",
+  "title": "Recommend Obsidian LaTeX plugins",
+  "titleGenerationStatus": "success",
+  "createdAt": 1777897818638,
+  "updatedAt": 1777898007123,
+  "lastResponseAt": 1777898007122,
+  "sessionId": "019df2f7-d3ef-74f1-bf2c-e65018daa896",
+  "providerState": {
+    "threadId": "019df2f7-d3ef-74f1-bf2c-e65018daa896",
+    "sessionFilePath": "/Users/inspyre/.codex/sessions/2026/05/04/rollout-2026-05-04T20-30-21-019df2f7-d3ef-74f1-bf2c-e65018daa896.jsonl",
+    "transcriptRootPath": "/Users/inspyre/.codex/sessions"
+  },
+  "usage": {
+    "inputTokens": 60865,
+    "cacheCreationInputTokens": 0,
+    "cacheReadInputTokens": 12672,
+    "contextWindow": 258400,
+    "contextWindowIsAuthoritative": true,
+    "contextTokens": 60865,
+    "percentage": 24,
+    "model": "gpt-5.5"
+  }
+}

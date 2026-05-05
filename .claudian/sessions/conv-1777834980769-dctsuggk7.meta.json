@@ -1,0 +1,25 @@
+{
+  "id": "conv-1777834980769-dctsuggk7",
+  "providerId": "codex",
+  "title": "介绍 BibLib 插件使用方法",
+  "titleGenerationStatus": "success",
+  "createdAt": 1777834980769,
+  "updatedAt": 1777897802567,
+  "lastResponseAt": 1777838204687,
+  "sessionId": "019def38-fdec-76c2-9e75-204c9a073cb1",
+  "providerState": {
+    "threadId": "019def38-fdec-76c2-9e75-204c9a073cb1",
+    "sessionFilePath": "/Users/inspyre/.codex/sessions/2026/05/04/rollout-2026-05-04T03-03-02-019def38-fdec-76c2-9e75-204c9a073cb1.jsonl",
+    "transcriptRootPath": "/Users/inspyre/.codex/sessions"
+  },
+  "usage": {
+    "inputTokens": 62700,
+    "cacheCreationInputTokens": 0,
+    "cacheReadInputTokens": 62336,
+    "contextWindow": 258400,
+    "contextWindowIsAuthoritative": true,
+    "contextTokens": 62700,
+    "percentage": 24,
+    "model": "gpt-5.5"
+  }
+}

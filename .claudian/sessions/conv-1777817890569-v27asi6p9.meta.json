@@ -1,0 +1,25 @@
+{
+  "id": "conv-1777817890569-v27asi6p9",
+  "providerId": "codex",
+  "title": "Identify currently open file",
+  "titleGenerationStatus": "success",
+  "createdAt": 1777817890572,
+  "updatedAt": 1777824363567,
+  "lastResponseAt": 1777817900427,
+  "sessionId": "019dee34-3725-7cf1-963a-7d423824fd68",
+  "providerState": {
+    "threadId": "019dee34-3725-7cf1-963a-7d423824fd68",
+    "sessionFilePath": "/Users/inspyre/.codex/sessions/2026/05/03/rollout-2026-05-03T22-18-12-019dee34-3725-7cf1-963a-7d423824fd68.jsonl",
+    "transcriptRootPath": "/Users/inspyre/.codex/sessions"
+  },
+  "usage": {
+    "inputTokens": 13947,
+    "cacheCreationInputTokens": 0,
+    "cacheReadInputTokens": 3456,
+    "contextWindow": 258400,
+    "contextWindowIsAuthoritative": true,
+    "contextTokens": 13947,
+    "percentage": 5,
+    "model": "gpt-5.5"
+  }
+}

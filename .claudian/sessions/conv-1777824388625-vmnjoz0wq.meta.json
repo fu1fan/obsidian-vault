@@ -1,0 +1,25 @@
+{
+  "id": "conv-1777824388625-vmnjoz0wq",
+  "providerId": "codex",
+  "title": "Modify enabled plugin configuration",
+  "titleGenerationStatus": "success",
+  "createdAt": 1777824388625,
+  "updatedAt": 1777838147644,
+  "lastResponseAt": 1777834958817,
+  "sessionId": "019dee97-5e0f-71d2-9011-9a19f52bd62b",
+  "providerState": {
+    "threadId": "019dee97-5e0f-71d2-9011-9a19f52bd62b",
+    "sessionFilePath": "/Users/inspyre/.codex/sessions/2026/05/04/rollout-2026-05-04T00-06-30-019dee97-5e0f-71d2-9011-9a19f52bd62b.jsonl",
+    "transcriptRootPath": "/Users/inspyre/.codex/sessions"
+  },
+  "usage": {
+    "inputTokens": 57693,
+    "cacheCreationInputTokens": 0,
+    "cacheReadInputTokens": 53120,
+    "contextWindow": 258400,
+    "contextWindowIsAuthoritative": true,
+    "contextTokens": 57693,
+    "percentage": 22,
+    "model": "gpt-5.5"
+  }
+}

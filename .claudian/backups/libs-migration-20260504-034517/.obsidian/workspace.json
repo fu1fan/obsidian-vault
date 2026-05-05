@@ -1,0 +1,291 @@
+{
+  "main": {
+    "id": "40665728222e830e",
+    "type": "split",
+    "children": [
+      {
+        "id": "a95855583b72b9e4",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8dbd09b902953d6e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "欢迎.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "欢迎"
+            }
+          },
+          {
+            "id": "d2742e8d7eb5ed5b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "@beyerpaligemma2024.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "@beyerpaligemma2024"
+            }
+          },
+          {
+            "id": "7ece9744a2163f3e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "关于.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "关于"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "e34b40dc3f84df93",
+    "type": "split",
+    "children": [
+      {
+        "id": "7581f9f52b87d149",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "25a2ef625d2770b8",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
+            }
+          },
+          {
+            "id": "7380e55a3d79c32a",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "[\"share_count\"]",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "99226454b68fb4a2",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 200
+  },
+  "right": {
+    "id": "8bd13860897055bf",
+    "type": "split",
+    "children": [
+      {
+        "id": "f47e2498f8e10491",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ee33a5a7369000c3",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "未命名.canvas",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "未命名 的反向链接列表"
+            }
+          },
+          {
+            "id": "6c9bef4fd061633f",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "出链"
+            }
+          },
+          {
+            "id": "71e5633b954c8f87",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "eec94478e6757b71",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
+          },
+          {
+            "id": "6912c3b7cfbf81e6",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "@beyerpaligemma2024.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "@beyerpaligemma2024 的大纲"
+            }
+          },
+          {
+            "id": "807346cf869a07c5",
+            "type": "leaf",
+            "state": {
+              "type": "claudian-view",
+              "state": {},
+              "icon": "bot",
+              "title": "Claudian"
+            }
+          },
+          {
+            "id": "0f49a1f32ce65ffd",
+            "type": "leaf",
+            "state": {
+              "type": "translator-view",
+              "state": {
+                "language_from": "auto",
+                "language_to": "zh-cn",
+                "translation_service": "google_translate",
+                "auto_translate": false,
+                "apply_glossary": false,
+                "view_mode": 0,
+                "filter_mode": 0,
+                "show_attribution": false,
+                "top_buttons": [
+                  "change-service",
+                  "automatic-translation",
+                  "change-layout",
+                  "apply-filter",
+                  "open-settings"
+                ],
+                "left_buttons": [
+                  "paste",
+                  "clear"
+                ],
+                "right_buttons": [
+                  "copy"
+                ]
+              },
+              "icon": "google_translate",
+              "title": "Google Translate"
+            }
+          }
+        ],
+        "currentTab": 5
+      }
+    ],
+    "direction": "horizontal",
+    "width": 352.5
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:新建数据库": false,
+      "obsidian42-brat:BRAT": false,
+      "pdf-plus:PDF++: Toggle auto-copy": false,
+      "pdf-plus:PDF++: Toggle auto-focus": false,
+      "pdf-plus:PDF++: Toggle auto-paste": false,
+      "translate:Open translation view": false,
+      "media-extended:Open media library": false,
+      "media-extended:Open media quick switcher": false,
+      "claudian:Open Claudian": false
+    }
+  },
+  "active": "807346cf869a07c5",
+  "lastOpenFiles": [
+    "@vaswaniattention2023.md",
+    "@beyerpaligemma2024.md",
+    "biblib/beyerpaligemma2024/beyerpaligemma2024.pdf",
+    "biblib/beyerpaligemma2024",
+    "biblib/bibliography.bib",
+    "biblib/vaswaniattention2023/vaswaniattention2023.pdf",
+    "欢迎.md",
+    "biblib/vaswaniattention2023/vaswaniattention2023.html",
+    "biblib/vaswaniattention2023",
+    "biblib",
+    "media-lib/index.base",
+    "PI0/A Quantitative Evaluation of Approximate Softmax Functions.pdf",
+    "PI0/未命名.md",
+    "关于.md",
+    "mx-cover-bilibili_bv_BV18a411r7mt.jpg",
+    "创建链接.md",
+    "media-lib/url-zwf3w65j.md",
+    "media-lib",
+    "未命名.md",
+    "未命名.canvas",
+    "@kleber_control_1976.md",
+    "2026-05-03.md",
+    "未命名 1.canvas"
+  ]
+}

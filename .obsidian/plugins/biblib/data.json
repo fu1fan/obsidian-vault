@@ -1,0 +1,77 @@
+{
+  "attachmentFolderPath": "libs/biblib",
+  "literatureNotePath": "/",
+  "filenameTemplate": "@{{citekey}} - {{title}} ",
+  "createAttachmentSubfolder": true,
+  "bibliographyJsonPath": "libs/biblib/bibliography.json",
+  "citekeyListPath": "libs/biblib/citekeylist.md",
+  "bibtexFilePath": "libs/biblib/bibliography.bib",
+  "headerTemplate": "# {{#title}}{{title}}{{/title}}{{^title}}{{citekey}}{{/title}} \n\n _Notes_",
+  "chapterHeaderTemplate": "# {{#pdflink}}[[{{pdflink}}|{{title}}]]{{/pdflink}}{{^pdflink}}{{title}}{{/pdflink}} (in {{container-title}})",
+  "literatureNoteTag": "literature_note",
+  "openNoteOnCreate": true,
+  "enableZoteroConnector": true,
+  "zoteroConnectorPort": 23119,
+  "tempPdfPath": "",
+  "customFrontmatterFields": [
+    {
+      "name": "year",
+      "template": "{{year}}",
+      "enabled": true
+    },
+    {
+      "name": "dateCreated",
+      "template": "{{currentDate}}",
+      "enabled": true
+    },
+    {
+      "name": "reading-status",
+      "template": "to-read",
+      "enabled": true
+    },
+    {
+      "name": "aliases",
+      "template": "[\"{{title|sentence}}\"]",
+      "enabled": true
+    },
+    {
+      "name": "author-links",
+      "template": "[{{#authors}}\"[[Author/{{.}}]]\",{{/authors}}]",
+      "enabled": true
+    },
+    {
+      "name": "attachment",
+      "template": "[{{#attachments}}{{.}},{{/attachments}}]",
+      "enabled": true
+    },
+    {
+      "name": "related",
+      "template": "[{{links}}]",
+      "enabled": true
+    }
+  ],
+  "citekeyOptions": {
+    "citekeyTemplate": "{{author|lowercase}}{{title|titleword}}{{year}}",
+    "useZoteroKeys": false,
+    "minCitekeyLength": 6
+  },
+  "bulkImportAttachmentHandling": "none",
+  "bulkImportAnnoteToBody": true,
+  "bulkImportCitekeyPreference": "imported",
+  "bulkImportConflictResolution": "skip",
+  "favoriteLanguages": [
+    {
+      "code": "en",
+      "name": "English"
+    },
+    {
+      "code": "de",
+      "name": "German"
+    }
+  ],
+  "defaultModalFields": [],
+  "editRegenerateCitekeyDefault": false,
+  "editUpdateCustomFrontmatterDefault": true,
+  "editRegenerateBodyDefault": false,
+  "editRenameFileOnCitekeyChange": true
+}

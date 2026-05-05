@@ -1,0 +1,25 @@
+{
+  "id": "conv-1777881983262-v2hdq0zij",
+  "providerId": "codex",
+  "title": "分析 PI0 项目文档知识图谱组织",
+  "titleGenerationStatus": "success",
+  "createdAt": 1777881983265,
+  "updatedAt": 1777897798434,
+  "lastResponseAt": 1777883878140,
+  "sessionId": "019df206-32a3-7cb3-9bbf-78f4e185c7e9",
+  "providerState": {
+    "threadId": "019df206-32a3-7cb3-9bbf-78f4e185c7e9",
+    "sessionFilePath": "/Users/inspyre/.codex/sessions/2026/05/04/rollout-2026-05-04T16-06-25-019df206-32a3-7cb3-9bbf-78f4e185c7e9.jsonl",
+    "transcriptRootPath": "/Users/inspyre/.codex/sessions"
+  },
+  "usage": {
+    "inputTokens": 53390,
+    "cacheCreationInputTokens": 0,
+    "cacheReadInputTokens": 2432,
+    "contextWindow": 258400,
+    "contextWindowIsAuthoritative": true,
+    "contextTokens": 53390,
+    "percentage": 21,
+    "model": "gpt-5.5"
+  }
+}

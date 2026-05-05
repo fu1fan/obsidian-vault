@@ -1,0 +1,25 @@
+{
+  "id": "conv-1777798206752-xgo3paed2",
+  "providerId": "codex",
+  "title": "整理 Obsidian PDF 论文工作流",
+  "titleGenerationStatus": "success",
+  "createdAt": 1777798206755,
+  "updatedAt": 1777834961708,
+  "lastResponseAt": 1777799271974,
+  "sessionId": "019ded07-dd7e-7682-86a8-b9876c7eab71",
+  "providerState": {
+    "threadId": "019ded07-dd7e-7682-86a8-b9876c7eab71",
+    "sessionFilePath": "/Users/inspyre/.codex/sessions/2026/05/03/rollout-2026-05-03T16-50-08-019ded07-dd7e-7682-86a8-b9876c7eab71.jsonl",
+    "transcriptRootPath": "/Users/inspyre/.codex/sessions"
+  },
+  "usage": {
+    "inputTokens": 64347,
+    "cacheCreationInputTokens": 0,
+    "cacheReadInputTokens": 29056,
+    "contextWindow": 258400,
+    "contextWindowIsAuthoritative": true,
+    "contextTokens": 64347,
+    "percentage": 25,
+    "model": "gpt-5.5"
+  }
+}

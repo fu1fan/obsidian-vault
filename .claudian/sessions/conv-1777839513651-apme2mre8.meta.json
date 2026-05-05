@@ -1,0 +1,25 @@
+{
+  "id": "conv-1777839513651-apme2mre8",
+  "providerId": "codex",
+  "title": "Explain Obsidian vault organization",
+  "titleGenerationStatus": "success",
+  "createdAt": 1777839513653,
+  "updatedAt": 1777881688386,
+  "lastResponseAt": 1777839558190,
+  "sessionId": "019def7e-8ab9-7652-b171-d769b6a402df",
+  "providerState": {
+    "threadId": "019def7e-8ab9-7652-b171-d769b6a402df",
+    "sessionFilePath": "/Users/inspyre/.codex/sessions/2026/05/04/rollout-2026-05-04T04-19-00-019def7e-8ab9-7652-b171-d769b6a402df.jsonl",
+    "transcriptRootPath": "/Users/inspyre/.codex/sessions"
+  },
+  "usage": {
+    "inputTokens": 12968,
+    "cacheCreationInputTokens": 0,
+    "cacheReadInputTokens": 6528,
+    "contextWindow": 258400,
+    "contextWindowIsAuthoritative": true,
+    "contextTokens": 12968,
+    "percentage": 5,
+    "model": "gpt-5.5"
+  }
+}
