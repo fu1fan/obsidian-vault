@@ -1,0 +1,26 @@
+{
+  "id": "conv-1777958695055-c766lmc3w",
+  "providerId": "codex",
+  "title": "Analyze PI0 inference architecture notes",
+  "titleGenerationStatus": "success",
+  "createdAt": 1777958695056,
+  "updatedAt": 1777958786410,
+  "lastResponseAt": 1777958786410,
+  "sessionId": "019df698-b8c8-7612-ad36-182422d5b895",
+  "providerState": {
+    "threadId": "019df698-b8c8-7612-ad36-182422d5b895",
+    "sessionFilePath": "/Users/inspyre/.codex/sessions/2026/05/05/rollout-2026-05-05T13-24-57-019df698-b8c8-7612-ad36-182422d5b895.jsonl",
+    "transcriptRootPath": "/Users/inspyre/.codex/sessions"
+  },
+  "currentNote": "PORJECTS/PI0近似计算/产出/π0 推理架构分析.md",
+  "usage": {
+    "inputTokens": 37674,
+    "cacheCreationInputTokens": 0,
+    "cacheReadInputTokens": 37248,
+    "contextWindow": 258400,
+    "contextWindowIsAuthoritative": true,
+    "contextTokens": 37674,
+    "percentage": 15,
+    "model": "gpt-5.5"
+  }
+}
