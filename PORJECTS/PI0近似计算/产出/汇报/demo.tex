@@ -1,0 +1,371 @@
+\documentclass[10pt]{beamer}
+
+\usepackage[T1]{fontenc}
+
+\usepackage[UTF8]{ctex}
+\usetheme{moloch}
+
+\setbeamertemplate{page number in head/foot}[appendixframenumber]
+\setbeamertemplate{section in toc}[sections numbered]
+
+\usepackage{booktabs}
+\usepackage[scale=2]{ccicons}
+
+\usepackage[semibold,light]{FiraSans}
+\usepackage{FiraMono}
+
+\usepackage{xspace}
+
+\title{Moloch}
+\subtitle{A Minimal Beamer Theme}
+\date{\today}
+\author{傅逸凡}
+\institute{Some Institution, Some University}
+\titlegraphic{\hfill\includegraphics[width=3.5cm]{assets/logo.pdf}}
+
+\begin{document}
+
+\maketitle
+
+\begin{frame}
+  \frametitle{Table of Contents}
+  \tableofcontents
+\end{frame}
+
+\section{Introduction}
+
+\begin{frame}[fragile]
+  \frametitle{Moloch}
+
+  The Moloch theme is a Beamer theme with minimal visual noise. It is a fork of the
+  \href{https://github.com/matze/mtheme}{metropolis theme} by Matthias Vogelgesang, which in
+  turn was inspired by by the \href{https://github.com/hsrmbeamertheme/hsrmbeamertheme}{hsrm
+    theme} by Benjamin Weiss. \medskip
+
+  Enable the theme by calling
+  \begin{verbatim}\documentclass{beamer}
+\usetheme{moloch}\end{verbatim}
+\end{frame}
+\begin{frame}[fragile]
+  \frametitle{Sections}
+  Sections group slides of the same topic by introducing a section page between them. A progress bar is shown which indicates how far along in the presentation you are.
+
+  \begin{verbatim}\section{Title Formats}\end{verbatim}
+\end{frame}
+
+\section{Title Formats}
+
+\begin{frame}[fragile]
+  \frametitle{Moloch Title Formats}
+  Moloch supports four different title formats:
+  \begin{itemize}
+    \item \texttt{regular} (Regular)
+    \item \texttt{smallcaps} (\textsc{Small Caps})
+    \item \texttt{allsmallcaps} (\textsc{all small caps})
+    \item \texttt{allcaps} (ALL CAPS)
+  \end{itemize}
+
+  They can either be set globally for every frame or used locally just for the current frame
+  and onwards by using
+  \begin{verbatim}\molochset{titleformat frame=<option>}\end{verbatim}
+\end{frame}
+
+{
+\molochset{titleformat frame=smallcaps}
+\begin{frame}
+  \frametitle{Small Caps}
+
+  \begin{alertblock}{Potential Problems}
+    Be aware that not every font supports small caps. If you use the Computer (or Latin) Modern Sans Serif font, for instance, text in small caps will just be typeset in a normal font.
+  \end{alertblock}
+
+  \begin{exampleblock}{Potential Problems}
+    Be aware that not every font supports small caps. If you use the Computer (or Latin) Modern Sans Serif font, for instance, text in small caps will just be typeset in a normal font.
+  \end{exampleblock}
+\end{frame}
+}
+
+{
+\molochset{titleformat frame=allsmallcaps}
+\begin{frame}
+  \frametitle{All Small Caps}
+  This frame uses the \texttt{allsmallcaps} title format.
+
+  \begin{alertblock}{Potential Problems}
+    This title format also uses small caps, so you face the same problems as with the \texttt{smallcaps} title format.
+
+    \medskip
+
+    In addition, note that numbers and math will be unaffected by this setting and will match
+    poorly with text as a result. For that reason, we suggest you make sure titles are all
+    plain text if you use this option.
+
+    \medskip
+
+    Finally, observe that the height of the frame title box will be modified to account for the
+    decreased text height since there are no capital letters. This too means that numbers and
+    math will not work well.
+  \end{alertblock}
+\end{frame}
+}
+
+{
+\molochset{titleformat frame=allcaps}
+\begin{frame}
+  \frametitle{All Caps}
+  This frame uses the \texttt{allcaps} title format.
+
+  \begin{alertblock}{Potential Problems}
+    This title format is not as problematic as the \texttt{allsmallcaps} format, but basically suffers from the same deficiencies. So please have a look at the documentation if you want to use it.
+  \end{alertblock}
+\end{frame}
+}
+
+\section{Elements}
+
+\section{Blocks}
+
+\begin{frame}[fragile]
+  \frametitle{Typography}
+  \begin{verbatim}The theme provides sensible defaults to
+\emph{emphasize} text, \alert{accent} parts or show
+\textbf{bold} results.\end{verbatim}
+  \begin{center}
+    becomes
+  \end{center}
+  The theme provides sensible defaults to \emph{emphasize} text,
+  \alert{accent} parts or show \textbf{bold} results.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Font Features Test}
+  \begin{itemize}
+    \item Regular
+    \item \textit{Italic}
+    \item \textbf{Bold}
+    \item \textbf{\textit{Bold Italic}}
+    \item \texttt{Monospace}
+    \item \texttt{\textit{Monospace Italic}}
+    \item \texttt{\textbf{Monospace Bold}}
+    \item \texttt{\textbf{\textit{Monospace Bold Italic}}}
+    \item \textsc{Small Caps}
+    \item \textbf{\textsc{Bold Small Caps}}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Lists}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.3\textwidth}
+    Items
+    \begin{itemize}
+      \item Milk \item Eggs \item Potatoes
+    \end{itemize}
+
+    \column{0.33\textwidth}
+    Enumerations
+    \begin{enumerate}
+      \item First, \item Second and \item Last.
+    \end{enumerate}
+
+    \column{0.33\textwidth}
+    Descriptions
+    \begin{description}[PowerPoint]
+      \item[PowerPoint] Meeh. \item[Beamer] Yeeeha.
+    \end{description}
+  \end{columns}
+\end{frame}
+\begin{frame}
+  \frametitle{Animation}
+  \begin{itemize}[<+- | alert@+>]
+    \item \alert<4>{This is\only<4>{ really} important}
+    \item Now this
+    \item And now this
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{Figures}
+  \begin{figure}
+    \newcounter{density}
+    \setcounter{density}{20}
+    \begin{tikzpicture}
+      \def\couleur{alerted text.fg}
+      \path[coordinate] (0,0)  coordinate(A)
+      ++( 90:5cm) coordinate(B)
+      ++(0:5cm) coordinate(C)
+      ++(-90:5cm) coordinate(D);
+      \draw[fill=\couleur!\thedensity] (A) -- (B) -- (C) --(D) -- cycle;
+      \foreach \x in {1,...,40}{%
+          \pgfmathsetcounter{density}{\thedensity+20}
+          \setcounter{density}{\thedensity}
+          \path[coordinate] coordinate(X) at (A){};
+          \path[coordinate] (A) -- (B) coordinate[pos=.10](A)
+          -- (C) coordinate[pos=.10](B)
+          -- (D) coordinate[pos=.10](C)
+          -- (X) coordinate[pos=.10](D);
+          \draw[fill=\couleur!\thedensity] (A)--(B)--(C)-- (D) -- cycle;
+        }
+    \end{tikzpicture}
+    \caption{Rotated square from
+      \href{http://www.texample.net/tikz/examples/rotated-polygons/}{texample.net}.}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Tables}
+  \framesubtitle{Largest cities in the world}
+  \begin{table}
+    \caption{Largest cities in the world (source: Wikipedia)}
+    \begin{tabular}{@{} lr @{}}
+      \toprule
+      City        & Population \\
+      \midrule
+      Mexico City & 20,116,842 \\
+      Shanghai    & 19,210,000 \\
+      Peking      & 15,796,450 \\
+      Istanbul    & 14,160,467 \\
+      \bottomrule
+    \end{tabular}
+  \end{table}
+\end{frame}
+\begin{frame}[fragile]
+  \frametitle{Blocks}
+  Three different block environments are pre-defined: \verb|block|, \verb|alertblock|,
+  and \verb|exampleblock|. They can be styled using the option
+  \verb|block|, which takes values \verb|transparent| (default, left column) and \verb|fill| (right column).
+
+  \begin{columns}[T]
+    \begin{column}{0.45\textwidth}
+      \begin{block}{Default}
+        Block content.
+      \end{block}
+
+      \begin{alertblock}{Alert}
+        Block content.
+      \end{alertblock}
+
+      \begin{exampleblock}{Example}
+        Block content.
+      \end{exampleblock}
+    \end{column}
+    \begin{column}{0.45\textwidth}
+      {
+        \molochset{block=fill}
+
+        \begin{block}{Default}
+          Block content.
+        \end{block}
+
+        \begin{alertblock}{Alert}
+          Block content.
+        \end{alertblock}
+
+        \begin{exampleblock}{Example}
+          Block content.
+        \end{exampleblock}
+      }
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[c]
+  \frametitle{Progress Bars}
+
+  A prominent feature of Moloch is the use of progress bars to
+  visualize the progress of the presentation. \medskip
+
+  By default bars are shown on section pages, but this can be toggled
+  through \texttt{sectionpage=progressbar|simple|none} and also enabled for
+  subsection pages through \texttt{subsectionpage=progressbar}.\medskip
+
+  Finally, you can enable progress bars on frames by setting
+  \texttt{progressbar=none|head|frametitle|foot} (depending on where
+  you'd like the bar to be placed).\medskip
+\end{frame}
+
+\begin{frame}[c,fragile]
+  \frametitle{Progress Bar Customization}
+  You can customize the width of the bars using
+  \texttt{progressbar linewidth=<length>}.\medskip
+
+  On the following pages, we have set
+  \begin{verbatim}\molochset{
+  progressbar=frametitle,
+  progressbar linewidth=1pt
+}
+\end{verbatim}
+  to enable progress bars below the frame title and set its width to 1pt.
+\end{frame}
+
+\molochset{progressbar=frametitle}
+
+\begin{frame}[c,fragile]
+  \frametitle{The Title Page}
+
+  There is only very little customization available of the title page at the
+  time of writing.\medskip
+
+  But you can at least modify the line width of the title separator
+  by setting \texttt{titleseparator linewidth=<length>}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Math}
+  \begin{equation*}
+    e = \lim_{n\to \infty} \left(1 + \frac{1}{n}\right)^n
+  \end{equation*}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Quotes}
+  \begin{quote}
+    Verily, I say unto you, the days spoken of in the Apocalypse are nigh!
+  \end{quote}
+\end{frame}
+
+{%
+\setbeamertemplate{frame footer}{My custom footer}
+\begin{frame}[fragile]
+  \frametitle{Frame Footer}
+  Moloch defines a custom beamer template to add a text to the footer. It can be set via
+  \begin{verbatim}\setbeamertemplate{frame footer}{My custom footer}\end{verbatim}
+\end{frame}
+}
+
+\begin{frame}[fragile]
+  \frametitle{References}
+  Here are some references~\cite{Knuth92,ConcreteMath,Simpson,Er01,greenwade93} to showcase \verb+[allowframebreaks]+.
+\end{frame}
+
+\section{Conclusion}
+
+\begin{frame}
+  \frametitle{Summary}
+
+  Get the source of this theme and the demo presentation from
+  \begin{center}
+    \url{github.com/jolars/moloch}
+  \end{center}
+
+  The theme is licensed under the
+  \href{http://creativecommons.org/licenses/by-sa/4.0/}{Creative Commons
+    Attribution-ShareAlike 4.0 International License}.
+
+  \begin{center}
+    \ccbysa
+  \end{center}
+
+\end{frame}
+
+\begin{frame}[standout]
+  Questions?
+\end{frame}
+
+\appendix
+
+\begin{frame}[allowframebreaks]{References}
+  \bibliography{assets/references}
+  \bibliographystyle{abbrv}
+\end{frame}
+
+\end{document}
