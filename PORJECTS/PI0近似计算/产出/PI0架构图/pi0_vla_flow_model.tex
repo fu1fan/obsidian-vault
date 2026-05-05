@@ -19,6 +19,8 @@
   x=1cm,y=1cm,
   every node/.style={font=\sffamily},
   flow/.style={-{Latex[length=2.6mm,width=2.1mm]}, line width=0.85pt, draw=black},
+  flowclear/.style={-{Latex[length=2.6mm,width=2.1mm]}, line width=0.85pt, draw=black,
+    preaction={draw=white,line width=2.5pt}},
   plainline/.style={line width=0.85pt, draw=black},
   repeatbrace/.style={decorate, decoration={brace,amplitude=4.0pt}, line width=0.55pt, draw=black},
   optarrow/.style={-{Latex[length=2.4mm,width=2mm]}, line width=0.75pt, draw=optred, dashed},
@@ -55,6 +57,11 @@
     fill=white, minimum height=0.68cm, align=center,
     text=optred, font=\sffamily\bfseries\footnotesize
   },
+  regionlabel/.style={
+    draw=black!10, line width=0.45pt, rounded corners=2pt,
+    fill=white, inner xsep=5pt, inner ysep=2.5pt,
+    font=\sffamily\bfseries\scriptsize, align=center
+  },
   smallmath/.style={font=\sffamily\bfseries\scriptsize},
   labeltext/.style={font=\sffamily\bfseries\footnotesize}
 ]
@@ -63,24 +70,26 @@
 
 % Title
 \node[font=\sffamily\bfseries\fontsize{26}{30}\selectfont] at (17.35,17.45)
-  {$\pi0$ Vision-Language-Action Flow Model};
+  {$\pi_0$ Vision-Language-Action Flow Model};
 
 % Left-side input/tokenization paths
+\node[regionlabel, text=vlblue!85!black] at (5.90,12.90) {Simplified VLM Token Path};
+
 \node[vlbox] (images) at (1.45,14.15) {Images};
 \node[vlbox] (vision) at (4.72,14.15) {Vision\\Encoder};
 \node[vlbox] (vproj) at (7.65,14.15) {Visual\\Projection};
-\node[vlbox] (itokens) at (10.55,14.15) {Image\\Tokens};
+\node[vlbox] (itokens) at (10.55,14.15) {Projected\\Image Tokens};
 
 \node[vlbox] (lang) at (1.45,10.35) {Language\\Instruction};
-\node[vlbox] (embed) at (4.78,10.35) {Token\\Embedding};
+\node[vlbox] (embed) at (4.78,10.35) {Tokenizer\\+ Embedding};
 \node[vlbox] (ttokens) at (7.85,10.35) {Text\\Tokens};
 
-\node[greenbox] (robot) at (1.35,6.55) {Robot\\State};
+\node[greenbox] (robot) at (1.35,6.55) {Proprioceptive\\State};
 \node[greenbox] (sproj) at (4.67,6.55) {State\\Projection};
 \node[greenbox] (stoken) at (7.92,6.55) {State\\Token};
 
 \node[vlbox, minimum width=2.2cm, minimum height=6.95cm, text width=1.9cm] (concat) at (11.55,9.65)
-  {Concatenate\\[2pt] Image Tokens\\[3pt] +\\[3pt] Text Tokens\\[3pt] +\\[3pt] State Token};
+  {Concatenate\\[2pt] Projected\\Image Tokens\\[3pt] +\\[3pt] Text Tokens\\[3pt] +\\[3pt] State Token};
 
 \foreach \a/\b in {images/vision,vision/vproj,vproj/itokens,lang/embed,embed/ttokens,robot/sproj,sproj/stoken}
   \draw[flow] (\a.east) -- (\b.west);
@@ -151,8 +160,15 @@
 \draw[optarrow] (coGeluV.west) -- (ffn.east);
 
 % Action expert and conditioning
-\node[greenbox, minimum width=2.65cm, text width=2.32cm] (noisy) at (24.02,14.00)
-  {Noisy Action\\Chunk $d_t$};
+\node[regionlabel, text=actionorange!85!black] at (29.30,13.62)
+  {$\pi_0$-specific VLA Action Path};
+
+\node[greenbox, minimum width=2.65cm, text width=2.32cm] (noisy) at (24.02,14.65)
+  {Noisy Action\\Chunk $a_t$};
+
+\node[orangebox, minimum width=2.55cm, minimum height=0.80cm, text width=2.25cm,
+  font=\sffamily\bfseries\scriptsize] (acttime) at (24.05,13.25)
+  {Action / Time\\Embedding};
 
 \node[
   draw=actionorange, line width=0.9pt, rounded corners=8pt, fill=actionlight,
@@ -177,17 +193,21 @@
 \draw[flow] ([xshift=0.12cm]ar1.east) -- ++(0.34,0) |- ([xshift=0.03cm]aa1.east);
 \draw[flow] ([xshift=0.12cm]ar2.east) -- ++(0.34,0) |- ([xshift=0.03cm]aa2.east);
 \draw[repeatbrace] (24.10,5.45) -- (24.10,12.08)
-  node[pos=0.39,left=5pt,font=\sffamily\bfseries\footnotesize] {Nx};
+  node[pos=0.39,left=5pt,font=\sffamily\bfseries\footnotesize] {Mx};
 
-\draw[flow] (hidden.east) -- (expert.west);
-\draw[flow] (noisy.south) -- ++(0,-0.50) -| ([xshift=-0.72cm]expert.north);
+\draw[flow] (noisy.south) -- (acttime.north);
+\draw[flow] (acttime.south) -- ([xshift=-1.30cm]expert.north);
 
 \node[greenbox, minimum width=3.0cm, text width=2.65cm] (timestep) at (22.50,3.60)
   {Flow Timestep $t$};
-\draw[flow] (timestep.north) -- ++(0,0.92) -| ([xshift=-0.75cm]expert.south);
+\draw[flow] (timestep.north) -- ++(0,0.72) |- (acttime.west);
+\draw[flowclear] (hidden.east) -- (expert.west);
 
 \node[callout, minimum width=2.45cm] (coGeluA) at (26.05,4.80) {GELU / SiLU};
 \draw[optarrow] (coGeluA.north) -- (aa2.south);
+\node[callout, minimum width=2.55cm, text width=2.25cm] (coActionMLP) at (28.85,5.92)
+  {Action Expert\\Linear / MLP};
+\draw[optarrow] (coActionMLP.west) -- (mlp.east);
 
 % Flow matching path
 \node[orangebox, minimum width=3.05cm, text width=2.75cm] (flowmatch) at (30.95,11.75)
