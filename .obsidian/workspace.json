@@ -8,7 +8,7 @@
         "type": "tabs",
         "children": [
           {
-            "id": "c15101d1f0c37f78",
+            "id": "6f9e46480fd5ae5f",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -20,20 +20,6 @@
               },
               "icon": "lucide-file",
               "title": "π0 推理架构分析"
-            }
-          },
-          {
-            "id": "6f9e46480fd5ae5f",
-            "type": "leaf",
-            "state": {
-              "type": "webviewer",
-              "state": {
-                "url": "https://yuxiangfunju.github.io/",
-                "title": "Yuxiang Fu - Homepage",
-                "mode": "webview"
-              },
-              "icon": "globe-2",
-              "title": "Yuxiang Fu - Homepage"
             }
           }
         ]
@@ -229,8 +215,9 @@
       "publish:发布更改": false
     }
   },
-  "active": "807346cf869a07c5",
+  "active": "6f9e46480fd5ae5f",
   "lastOpenFiles": [
+    "PORJECTS/PI0近似计算/产出/π0 推理架构分析.md",
     "PORJECTS/PI0近似计算/资料/其他/考题原文.md",
     "PORJECTS/PI0近似计算/资料/导师主页/傅玉祥.md",
     "PORJECTS/PI0近似计算/00.项目背景.md",
@@ -249,7 +236,6 @@
     "PORJECTS/PI0近似计算/资料/PI0技术文件/Hugging Face π0 介绍.html",
     "PORJECTS/PI0近似计算/资料/PI0技术文件",
     "PORJECTS/PI0近似计算/资料/AMD技术文档",
-    "PORJECTS/PI0近似计算/产出/π0 推理架构分析.md",
     "PORJECTS/PI0近似计算/资料/论文/@black02026 - $π_0$_ A Vision-Language-Action Flow Model for General Robot Control.md",
     "PORJECTS/PI0近似计算/资料/论文/@beyerpaligemma2024 - PaliGemma_ A versatile 3B VLM for transfer.md",
     "PORJECTS/PI0近似计算/整理/模型架构/Gemma-2B.md",
