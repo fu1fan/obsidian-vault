@@ -95,8 +95,8 @@
   \draw[flow] (\a.east) -- (\b.west);
 
 \coordinate (imageTokenOut) at ([xshift=0.68cm]itokens.east);
-\draw[flow] (itokens.east) -- (imageTokenOut);
-\draw[plainline] (imageTokenOut) |- (concat.north);
+\coordinate (imageTokenIn) at (imageTokenOut |- concat.north);
+\draw[flow] (itokens.east) -- (imageTokenOut) -- (imageTokenIn);
 \draw[flow] (ttokens.east) -- (concat.west |- ttokens.east);
 \draw[flow] (stoken.east) -- (concat.west |- stoken.east);
 
@@ -125,12 +125,12 @@
   minimum width=4.18cm, minimum height=11.1cm
 ] (vlblock) at (16.15,8.78) {};
 
-\node[tinyblue] (rms1) at (16.15,13.85) {RMSNorm};
-\node[tinyblue, minimum height=1.05cm] (mha) at (16.15,11.92) {Multi-Head\\Attention};
-\node[tinyblue] (add1) at (16.15,9.86) {Add \& Residual};
-\node[tinyblue] (rms2) at (16.15,8.23) {RMSNorm};
-\node[tinyblue] (ffn) at (16.15,6.51) {Feed Forward};
-\node[tinyblue] (add2) at (16.15,4.89) {Add \& Residual};
+\node[tinyblue] (rms1) at (16.15,13.35) {RMSNorm};
+\node[tinyblue, minimum height=1.05cm] (mha) at (16.15,11.42) {Multi-Head\\Attention};
+\node[tinyblue] (add1) at (16.15,9.36) {Add \& Residual};
+\node[tinyblue] (rms2) at (16.15,7.73) {RMSNorm};
+\node[tinyblue] (ffn) at (16.15,6.01) {Feed Forward};
+\node[tinyblue] (add2) at (16.15,4.39) {Add \& Residual};
 
 \draw[flow] (rms1.south) -- (mha.north);
 \draw[flow] (mha.south) -- (add1.north);
@@ -138,10 +138,10 @@
 \draw[flow] (rms2.south) -- (ffn.north);
 \draw[flow] (ffn.south) -- (add2.north);
 
-\draw[flow] ([xshift=0.18cm]rms1.east) -- ++(0.46,0) |- ([xshift=0.04cm]add1.east);
-\draw[flow] ([xshift=0.18cm]rms2.east) -- ++(0.46,0) |- ([xshift=0.04cm]add2.east);
-\draw[repeatbrace] (13.72,3.65) -- (13.72,14.35)
-  node[pos=0.44,left=5pt,font=\sffamily\bfseries\footnotesize] {Nx};
+\draw[flow] ([xshift=0.08cm]rms1.east) -- ++(0.28,0) |- ([xshift=0.04cm]add1.east);
+\draw[flow] ([xshift=0.08cm]rms2.east) -- ++(0.28,0) |- ([xshift=0.04cm]add2.east);
+\draw[repeatbrace] (13.82,3.65) -- (13.82,14.35)
+  node[pos=0.44,left=2pt,font=\sffamily\bfseries\scriptsize] {Nx};
 
 \draw[flow] (concat.east) -- (backbone.west);
 
@@ -165,7 +165,7 @@
 \node[regionlabel, text=actionorange!85!black] at (29.30,13.62)
   {$\pi_0$-specific VLA Action Path};
 
-\node[greenbox, minimum width=2.65cm, text width=2.32cm] (noisy) at (24.02,14.65)
+\node[greenbox, minimum width=2.65cm, text width=2.32cm] (noisy) at (24.32,14.65)
   {Noisy Action\\Chunk $a_t$};
 
 \node[orangebox, minimum width=2.55cm, minimum height=0.80cm, text width=2.25cm,
@@ -200,14 +200,14 @@
 \draw[flow] (noisy.south) -- (acttime.north);
 \draw[flow] (acttime.south) -- ([xshift=-1.30cm]expert.north);
 
-\node[greenbox, minimum width=2.75cm, text width=2.40cm] (timestep) at (21.20,14.65)
+\node[greenbox, minimum width=2.75cm, text width=2.40cm] (timestep) at (21.50,14.65)
   {Flow Timestep $t$};
-\draw[flow] (timestep.south east) -- (acttime.north west);
+\draw[flow] (timestep.south east) -- ([xshift=-0.52cm]acttime.north);
 \draw[flowclear] (hidden.east) -- (expert.west);
 
-\node[callout, minimum width=2.45cm] (coGeluA) at (26.05,4.80) {GELU / SiLU};
+\node[callout, minimum width=2.45cm] (coGeluA) at (25.25,4.52) {GELU / SiLU};
 \draw[optarrow] (coGeluA.north) -- (aa2.south);
-\node[callout, minimum width=2.55cm, text width=2.25cm] (coActionMLP) at (28.85,5.92)
+\node[callout, minimum width=2.55cm, text width=2.25cm] (coActionMLP) at (28.85,5.28)
   {Action Expert\\Linear / MLP};
 \draw[optarrow] (coActionMLP.west) -- (mlp.east);
 
@@ -240,16 +240,16 @@
 \draw[plainline] (dots.east) -- (a1.west);
 \draw[flow] (a1.east) -- (a0.west);
 
-\node[callout, minimum width=2.10cm, text width=1.85cm] (stepred) at (29.10,4.90)
+\node[callout, minimum width=2.10cm, text width=1.85cm] (stepred) at (33.00,5.05)
   {Flow Step\\Reduction};
-\draw[optarrow] (stepred.north) -- (iter.south);
+\draw[optarrow] (stepred.north) -- ([xshift=2.10cm]iter.south);
 
-\node[orangebox, minimum width=3.10cm, text width=2.78cm] (final) at (32.18,3.42)
+\node[orangebox, minimum width=3.10cm, text width=2.78cm] (final) at (30.90,3.42)
   {Final Continuous\\Action Chunk};
-\node[orangebox, minimum width=3.10cm, text width=2.78cm] (control) at (32.18,1.14)
+\node[orangebox, minimum width=3.10cm, text width=2.78cm] (control) at (30.90,1.14)
   {Robot Control\\Execution};
 
-\draw[flow] (iter.south) -- ++(0,-0.42) -| (final.north);
+\draw[flow] (iter.south) -- (final.north);
 \draw[flow] (final.south) -- (control.north);
 
 % Legends
