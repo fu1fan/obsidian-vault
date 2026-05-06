@@ -3,7 +3,11 @@
 \usepackage[T1]{fontenc}
 
 \usepackage[UTF8]{ctex}
-\usetheme{moloch}
+\usetheme[
+  titlepage=moloch,
+  sectionpage=progressbar,
+  progressbar=frametitle,
+]{moloch}
 
 \setbeamertemplate{page number in head/foot}[appendixframenumber]
 \setbeamertemplate{section in toc}[sections numbered]
@@ -21,7 +25,7 @@
 \date{\today}
 \author{傅逸凡}
 \institute{电气工程学院, 西南交通大学}
-\titlegraphic{\hfill\includegraphics[width=3.5cm]{assets/logo.pdf}}
+\titlegraphic{\IfFileExists{assets/logo.pdf}{\hfill\includegraphics[width=3.5cm]{assets/logo.pdf}}{}}
 
 \begin{document}
 
@@ -93,330 +97,292 @@
 \begin{frame}
   \frametitle{$\pi_0$模型数据流}
   \centering
-  \includegraphics[width=.96\textwidth,height=.90\textheight,keepaspectratio]{assets/pi0_vla_flow_model.pdf}
+  \IfFileExists{assets/pi0_vla_flow_model.pdf}{%
+    \includegraphics[width=.96\textwidth,height=.90\textheight,keepaspectratio]{assets/pi0_vla_flow_model.pdf}%
+  }{%
+    \IfFileExists{assets/pi0_vla_flow_model.png}{%
+      \includegraphics[width=.96\textwidth,height=.90\textheight,keepaspectratio]{assets/pi0_vla_flow_model.png}%
+    }{%
+      \IfFileExists{pi0_vla_flow_model.png}{%
+        \includegraphics[width=.96\textwidth,height=.90\textheight,keepaspectratio]{pi0_vla_flow_model.png}%
+      }{%
+        \begin{alertblock}{缺少架构图文件}
+          请将 \texttt{pi0\_vla\_flow\_model.pdf} 或 \texttt{pi0\_vla\_flow\_model.png} 放入 \texttt{assets/} 目录。
+        \end{alertblock}%
+      }%
+    }%
+  }
   % 图中 Linear/GEMM 以 visual projector 为例，实际还包括 state/action projection、QKV/O projection、FFN 以及 action expert MLP 中的大量矩阵乘。
 \end{frame}
 
-\begin{frame}[fragile]
-  \frametitle{Sections}
-  Sections group slides of the same topic by introducing a section page between them. A progress bar is shown which indicates how far along in the presentation you are.
 
-  \verb|\section{Title Formats}|
-\end{frame}
-
-\section{Title Formats}
-
-\begin{frame}[fragile]
-  \frametitle{Moloch Title Formats}
-  Moloch supports four different title formats:
-  \begin{itemize}
-    \item \texttt{regular} (Regular)
-    \item \texttt{smallcaps} (\textsc{Small Caps})
-    \item \texttt{allsmallcaps} (\textsc{all small caps})
-    \item \texttt{allcaps} (ALL CAPS)
-  \end{itemize}
-
-  They can either be set globally for every frame or used locally just for the current frame
-  and onwards by using
-  \verb|\molochset{titleformat frame=<option>}|
-\end{frame}
-
-{
-  \molochset{titleformat frame=smallcaps}
-  \begin{frame}
-    \frametitle{Small Caps}
-
-    \begin{alertblock}{Potential Problems}
-      Be aware that not every font supports small caps. If you use the Computer (or Latin) Modern Sans Serif font, for instance, text in small caps will just be typeset in a normal font.
-    \end{alertblock}
-
-    \begin{exampleblock}{Potential Problems}
-      Be aware that not every font supports small caps. If you use the Computer (or Latin) Modern Sans Serif font, for instance, text in small caps will just be typeset in a normal font.
-    \end{exampleblock}
-  \end{frame}
-}
-
-{
-  \molochset{titleformat frame=allsmallcaps}
-  \begin{frame}
-    \frametitle{All Small Caps}
-    This frame uses the \texttt{allsmallcaps} title format.
-
-    \begin{alertblock}{Potential Problems}
-      This title format also uses small caps, so you face the same problems as with the \texttt{smallcaps} title format.
-
-      \medskip
-
-      In addition, note that numbers and math will be unaffected by this setting and will match
-      poorly with text as a result. For that reason, we suggest you make sure titles are all
-      plain text if you use this option.
-
-      \medskip
-
-      Finally, observe that the height of the frame title box will be modified to account for the
-      decreased text height since there are no capital letters. This too means that numbers and
-      math will not work well.
-    \end{alertblock}
-  \end{frame}
-}
-
-{
-  \molochset{titleformat frame=allcaps}
-  \begin{frame}
-    \frametitle{All Caps}
-    This frame uses the \texttt{allcaps} title format.
-
-    \begin{alertblock}{Potential Problems}
-      This title format is not as problematic as the \texttt{allsmallcaps} format, but basically suffers from the same deficiencies. So please have a look at the documentation if you want to use it.
-    \end{alertblock}
-  \end{frame}
-}
-
-\section{Elements}
-
-\section{Blocks}
-
-\begin{frame}[fragile]
-  \frametitle{Typography}
-  \begin{verbatim}The theme provides sensible defaults to
-\emph{emphasize} text, \alert{accent} parts or show
-\textbf{bold} results.\end{verbatim}
-  \begin{center}
-    becomes
-  \end{center}
-  The theme provides sensible defaults to \emph{emphasize} text,
-  \alert{accent} parts or show \textbf{bold} results.
-\end{frame}
+\section{Architecture Bottleneck}
 
 \begin{frame}
-  \frametitle{Font Features Test}
-  \begin{itemize}
-    \item Regular
-    \item \textit{Italic}
-    \item \textbf{Bold}
-    \item \textbf{\textit{Bold Italic}}
-    \item \texttt{Monospace}
-    \item \texttt{\textit{Monospace Italic}}
-    \item \texttt{\textbf{Monospace Bold}}
-    \item \texttt{\textbf{\textit{Monospace Bold Italic}}}
-    \item \textsc{Small Caps}
-    \item \textbf{\textsc{Bold Small Caps}}
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Lists}
+  \frametitle{任务一：$\pi_0$ 推理链路中的 FPGA 部署瓶颈}
+  \small
   \begin{columns}[T,onlytextwidth]
-    \column{0.3\textwidth}
-    Items
-    \begin{itemize}
-      \item Milk \item Eggs \item Potatoes
-    \end{itemize}
+    \column{0.48\textwidth}
+    \begin{block}{为什么不做完整端到端部署}
+      \begin{itemize}
+        \item $\pi_0$ 不是单纯 VLM，而是 VLM backbone + action expert + flow matching。
+        \item 完整模型参数量大，推理链路包含图像、语言、状态、动作和多步积分。
+        \item 一周内更合理的路线是\textbf{模块级分析与验证}，而非完整 checkpoint 部署到 FPGA。
+      \end{itemize}
+    \end{block}
 
-    \column{0.33\textwidth}
-    Enumerations
-    \begin{enumerate}
-      \item First, \item Second and \item Last.
-    \end{enumerate}
+    \begin{exampleblock}{本项目降级策略}
+      选择 red dashed boxes 对应的关键模块：Linear/GEMM、QKV、FFN、Softmax、GELU/SiLU、RMSNorm、Action Expert MLP 与 Flow Step Reduction。
+    \end{exampleblock}
 
-    \column{0.33\textwidth}
-    Descriptions
-    \begin{description}[PowerPoint]
-      \item[PowerPoint] Meeh. \item[Beamer] Yeeeha.
-    \end{description}
+    \column{0.48\textwidth}
+    \begin{alertblock}{主要瓶颈}
+      \begin{tabular}{@{}p{0.25\linewidth}p{0.68\linewidth}@{}}
+        \toprule
+        类型 & 具体问题 \\
+        \midrule
+        计算量 & QKV、FFN、projector 中 GEMM 占主导 \\
+        存储 & VLM 权重和中间激活远超片上 BRAM \\
+        访存 & 大矩阵权重反复搬运，带宽压力明显 \\
+        非线性 & Softmax、GELU、RMSNorm 含 exp/div/sqrt \\
+        多步推理 & flow matching 需要多次 action expert 调用 \\
+        \bottomrule
+      \end{tabular}
+    \end{alertblock}
   \end{columns}
 \end{frame}
-\begin{frame}
-  \frametitle{Animation}
-  \begin{itemize}[<+- | alert@+>]
-    \item \alert<4>{This is\only<4>{ really} important}
-    \item Now this
-    \item And now this
-  \end{itemize}
-\end{frame}
-\begin{frame}
-  \frametitle{Figures}
-  \begin{figure}
-    \newcounter{density}
-    \setcounter{density}{20}
-    \begin{tikzpicture}
-      \def\couleur{alerted text.fg}
-      \path[coordinate] (0,0)  coordinate(A)
-      ++( 90:5cm) coordinate(B)
-      ++(0:5cm) coordinate(C)
-      ++(-90:5cm) coordinate(D);
-      \draw[fill=\couleur!\thedensity] (A) -- (B) -- (C) --(D) -- cycle;
-      \foreach \x in {1,...,40}{%
-          \pgfmathsetcounter{density}{\thedensity+20}
-          \setcounter{density}{\thedensity}
-          \path[coordinate] coordinate(X) at (A){};
-          \path[coordinate] (A) -- (B) coordinate[pos=.10](A)
-          -- (C) coordinate[pos=.10](B)
-          -- (D) coordinate[pos=.10](C)
-          -- (X) coordinate[pos=.10](D);
-          \draw[fill=\couleur!\thedensity] (A)--(B)--(C)-- (D) -- cycle;
-        }
-    \end{tikzpicture}
-    \caption{Rotated square from
-      \href{http://www.texample.net/tikz/examples/rotated-polygons/}{texample.net}.}
-  \end{figure}
-\end{frame}
+
+\section{Approximation Strategy}
 
 \begin{frame}
-  \frametitle{Tables}
-  \framesubtitle{Largest cities in the world}
+  \frametitle{任务二：面向 $\pi_0$ 的模块级近似计算方案}
+  \small
   \begin{table}
-    \caption{Largest cities in the world (source: Wikipedia)}
-    \begin{tabular}{@{} lr @{}}
+    \begin{tabular}{@{}p{0.24\linewidth}p{0.38\linewidth}p{0.28\linewidth}@{}}
       \toprule
-      City        & Population \\
+      优化对象 & 近似/定点化方法 & 预期收益 \\
       \midrule
-      Mexico City & 20,116,842 \\
-      Shanghai    & 19,210,000 \\
-      Peking      & 15,796,450 \\
-      Istanbul    & 14,160,467 \\
+      Linear / QKV / FFN & INT8、INT4、W4A8 fake quant；INT32/INT24 累加后 requantize & 降低 GEMM 计算和权重存储 \\
+      Softmax & LUT、PWL、Taylor、base-2 softmax & 避免高成本 exp/div \\
+      GELU / SiLU & PWL、hard approximation、clipped linear & 降低复杂激活函数开销 \\
+      RMSNorm & fixed-point + reciprocal sqrt 近似 & 降低 sqrt/div 成本 \\
+      Flow steps & 10 steps $\rightarrow$ 8/6/4/2 steps & 减少 action expert 调用次数 \\
       \bottomrule
     \end{tabular}
   \end{table}
+
+  \vspace{4pt}
+  \begin{alertblock}{核心思路}
+    不直接宣称完整 $\pi_0$ 可部署到 FPGA，而是把模型拆成可验证的算子与模块，用误差、延迟和存储压缩比评估近似计算可行性。
+  \end{alertblock}
 \end{frame}
-\begin{frame}[fragile]
-  \frametitle{Blocks}
-  Three different block environments are pre-defined: \verb|block|, \verb|alertblock|,
-  and \verb|exampleblock|. They can be styled using the option
-  \verb|block|, which takes values \verb|transparent| (default, left column) and \verb|fill| (right column).
 
-  \begin{columns}[T]
-    \begin{column}{0.45\textwidth}
-      \begin{block}{Default}
-        Block content.
-      \end{block}
+\section{PyTorch Experiments}
 
-      \begin{alertblock}{Alert}
-        Block content.
-      \end{alertblock}
+\begin{frame}
+  \frametitle{PyTorch 实验设计：从随机 Proxy 到真实权重 Proxy}
+  \small
+  \begin{columns}[T,onlytextwidth]
+    \column{0.52\textwidth}
+    \begin{block}{实验分层}
+      \begin{tabular}{@{}p{0.30\linewidth}p{0.28\linewidth}p{0.30\linewidth}@{}}
+        \toprule
+        实验层级 & 权重/输入 & 目的 \\
+        \midrule
+        random + $\pi_0$ shape & 随机权重 + 随机输入 & 验证同结构同规模趋势 \\
+        real weight proxy & $\pi_0$ 权重 + 随机输入 & 验证真实参数分布下误差 \\
+        toy flow & 合成动作轨迹 & 验证步数减少的误差--延迟权衡 \\
+        \bottomrule
+      \end{tabular}
+    \end{block}
 
-      \begin{exampleblock}{Example}
-        Block content.
-      \end{exampleblock}
-    \end{column}
-    \begin{column}{0.45\textwidth}
-      {
-        \molochset{block=fill}
+    \begin{exampleblock}{评价指标}
+      MSE、MAE、max error、cosine similarity、relative L2、KL divergence、latency、weight size、compression ratio。
+    \end{exampleblock}
 
-        \begin{block}{Default}
-          Block content.
-        \end{block}
-
-        \begin{alertblock}{Alert}
-          Block content.
-        \end{alertblock}
-
-        \begin{exampleblock}{Example}
-          Block content.
-        \end{exampleblock}
-      }
-    \end{column}
+    \column{0.44\textwidth}
+    \begin{alertblock}{主动限定结论边界}
+      \begin{itemize}
+        \item 不是完整 $\pi_0$ 端到端量化评估；
+        \item 没有真实 observation / activation / action dataset；
+        \item 不能推出真实机器人任务成功率下降；
+        \item 结论只支撑\textbf{模块级 proxy benchmark}。
+      \end{itemize}
+    \end{alertblock}
   \end{columns}
 \end{frame}
 
-\begin{frame}[c]
-  \frametitle{Progress Bars}
+\begin{frame}
+  \frametitle{实验覆盖的 $\pi_0$ 关键模块与 Shape}
+  \scriptsize
+  \begin{table}
+    \begin{tabular}{@{}p{0.25\linewidth}p{0.37\linewidth}p{0.30\linewidth}@{}}
+      \toprule
+      模块 & 实验 shape / 结构 & 对应红框 \\
+      \midrule
+      Visual projector & $[1,768,1152] \rightarrow [1,768,2048]$ & Linear / GEMM \\
+      VLM attention & $q:2048\rightarrow2048$, $k/v:2048\rightarrow256$, $o:2048\rightarrow2048$ & QKV Linear, Softmax \\
+      VLM FFN & $2048 \rightarrow 16384 \rightarrow 2048$，gated FFN & FFN, GELU/SiLU \\
+      Action expert FFN & $1024 \rightarrow 4096 \rightarrow 1024$ & Action Expert MLP \\
+      State/action projection & $32\rightarrow1024$, $1024\rightarrow32$ & Linear / GEMM \\
+      RMSNorm & $[1,768,2048]$, $[1,50,1024]$ & RMSNorm \\
+      Flow matching toy & $H=50$, action dim $=32$, steps $=10/8/6/4/2$ & Flow Step Reduction \\
+      \bottomrule
+    \end{tabular}
+  \end{table}
 
-  A prominent feature of Moloch is the use of progress bars to
-  visualize the progress of the presentation. \medskip
-
-  By default bars are shown on section pages, but this can be toggled
-  through \texttt{sectionpage=progressbar|simple|none} and also enabled for
-  subsection pages through \texttt{subsectionpage=progressbar}.\medskip
-
-  Finally, you can enable progress bars on frames by setting
-  \texttt{progressbar=none|head|frametitle|foot} (depending on where
-  you'd like the bar to be placed).\medskip
-\end{frame}
-
-\begin{frame}[c,fragile]
-  \frametitle{Progress Bar Customization}
-  You can customize the width of the bars using
-  \texttt{progressbar linewidth=<length>}.\medskip
-
-  On the following pages, we have set
-  \begin{verbatim}\molochset{
-  progressbar=frametitle,
-  progressbar linewidth=1pt
-}
-\end{verbatim}
-  to enable progress bars below the frame title and set its width to 1pt.
-\end{frame}
-
-\molochset{progressbar=frametitle}
-
-\begin{frame}[c,fragile]
-  \frametitle{The Title Page}
-
-  There is only very little customization available of the title page at the
-  time of writing.\medskip
-
-  But you can at least modify the line width of the title separator
-  by setting \texttt{titleseparator linewidth=<length>}
+  \begin{block}{实验定位}
+    先用随机张量对齐结构和规模，再用 $\pi_0$ checkpoint 中提取的真实模块权重重复测试，提升 proxy benchmark 的可信度。
+  \end{block}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Math}
-  \begin{equation*}
-    e = \lim_{n\to \infty} \left(1 + \frac{1}{n}\right)^n
-  \end{equation*}
+  \frametitle{实验结果一：GEMM 类模块适合优先 INT8 定点化}
+  \small
+  \begin{columns}[T,onlytextwidth]
+    \column{0.56\textwidth}
+    \begin{table}
+      \begin{tabular}{@{}p{0.40\linewidth}cc@{}}
+        \toprule
+        实验设置 & INT8 最低 cosine & INT4 最低 cosine \\
+        \midrule
+        $\pi_0$-aligned random & 0.998402 & 0.963150 \\
+        real $\pi_0$ weight & 0.994843 & 0.921080 \\
+        \bottomrule
+      \end{tabular}
+    \end{table}
+
+    \begin{exampleblock}{观察}
+      \begin{itemize}
+        \item INT8 在随机 proxy 和真实权重 proxy 中都较稳定；
+        \item INT4/W4A8 权重压缩更强，但误差风险明显增加；
+        \item GEMM 类模块是 FPGA 定点化最优先对象。
+      \end{itemize}
+    \end{exampleblock}
+
+    \column{0.40\textwidth}
+    \begin{alertblock}{对应 $\pi_0$ 模块}
+      \begin{itemize}
+        \item Visual projector；
+        \item QKV/O projection；
+        \item FFN gate/up/down；
+        \item State/action projection；
+        \item Action expert MLP。
+      \end{itemize}
+    \end{alertblock}
+  \end{columns}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Quotes}
-  \begin{quote}
-    Verily, I say unto you, the days spoken of in the Apocalypse are nigh!
-  \end{quote}
+  \frametitle{实验结果二：Softmax / RMSNorm 可近似，激活替换需谨慎}
+  \small
+  \begin{columns}[T,onlytextwidth]
+    \column{0.52\textwidth}
+    \begin{block}{Softmax}
+      真实 Q/K 权重生成 attention score 后，LUT softmax 的 relative L2 约为 $4.3\times10^{-5}$，说明 LUT 是较好的硬件友好候选。
+    \end{block}
+
+    \begin{block}{RMSNorm}
+      真实权重 proxy 中 RMSNorm 近似最大 relative L2 约为 0.0117，reciprocal sqrt 近似相对可控。
+    \end{block}
+
+    \column{0.44\textwidth}
+    \begin{alertblock}{GELU / SiLU}
+      FFN 激活替换必须放回完整 FFN 评价。identity 或过激 clipped-linear 替换可能导致 relative L2 接近 1，不能直接作为默认方案。
+    \end{alertblock}
+
+    \begin{exampleblock}{结论}
+      非线性算子中，Softmax 与 RMSNorm 的近似更稳；GELU/SiLU 应优先采用保守 PWL/LUT，而非粗暴线性替换。
+    \end{exampleblock}
+  \end{columns}
 \end{frame}
 
-{%
-  \setbeamertemplate{frame footer}{My custom footer}
-  \begin{frame}[fragile]
-    \frametitle{Frame Footer}
-    Moloch defines a custom beamer template to add a text to the footer. It can be set via
-    \verb|\setbeamertemplate{frame footer}{My custom footer}|
-  \end{frame}
-}
+\begin{frame}
+  \frametitle{实验结果三：Flow Step Reduction 是算法级加速旋钮}
+  \small
+  \begin{columns}[T,onlytextwidth]
+    \column{0.50\textwidth}
+    \begin{block}{实验设置}
+      \begin{itemize}
+        \item toy flow matching，不运行完整 $\pi_0$；
+        \item 对齐 action shape：$H=50$, action dim $=32$；
+        \item 对比 10 / 8 / 6 / 4 / 2 step Euler integration。
+      \end{itemize}
+    \end{block}
 
-\begin{frame}[fragile]
-  \frametitle{References}
-  Here are some references~\cite{Knuth92,ConcreteMath,Simpson,Er01,greenwade93} to showcase \verb+[allowframebreaks]+.
+    \column{0.46\textwidth}
+    \begin{exampleblock}{观察}
+      2-step 相比 10-step 约 $4.46\times$ 加速，MSE 约 $4.32\times10^{-3}$，cosine 约 0.9975。
+    \end{exampleblock}
+
+    \begin{alertblock}{边界}
+      该结果只能说明步数减少存在误差--延迟权衡，不能代表真实机器人动作质量。
+    \end{alertblock}
+  \end{columns}
 \end{frame}
 
 \section{Conclusion}
 
 \begin{frame}
-  \frametitle{Summary}
-
-  Get the source of this theme and the demo presentation from
-  \begin{center}
-    \url{github.com/jolars/moloch}
-  \end{center}
-
-  The theme is licensed under the
-  \href{http://creativecommons.org/licenses/by-sa/4.0/}{Creative Commons
-    Attribution-ShareAlike 4.0 International License}.
-
-  \begin{center}
-    \ccbysa
-  \end{center}
-
+  \frametitle{总结：$\pi_0$ 模块级近似计算验证结论}
+  \small
+  \begin{enumerate}
+    \item \textbf{架构层面：} $\pi_0$ 是 VLM backbone + action expert + flow matching，不适合直接完整 FPGA 部署。
+    \item \textbf{GEMM 层面：} visual projector、QKV/O、FFN、state/action projection 和 action expert MLP 均适合优先 INT8 定点化。
+    \item \textbf{非线性层面：} Softmax 可采用 LUT/PWL，RMSNorm 可采用 reciprocal sqrt 近似；GELU/SiLU 需要保守处理。
+    \item \textbf{算法层面：} Flow step reduction 有延迟收益，但必须后续结合真实 action trajectory 验证。
+    \item \textbf{工程层面：} 本工作已完成 PyTorch 模块级验证，后续可将 INT8 tiled GEMM、LUT softmax、PWL GELU 落到 Vitis HLS kernel。
+  \end{enumerate}
 \end{frame}
 
 \begin{frame}[standout]
-  Questions?
+  谢谢老师，请批评指正。
 \end{frame}
 
 \appendix
 
-\begin{frame}[allowframebreaks]{References}
-  \bibliography{assets/references}
-  \bibliographystyle{abbrv}
+\section{Appendix}
+
+\begin{frame}
+  \frametitle{Appendix：真实权重 Proxy 的作用与限制}
+  \small
+  \begin{columns}[T,onlytextwidth]
+    \column{0.48\textwidth}
+    \begin{block}{作用}
+      \begin{itemize}
+        \item 使用 $\pi_0$ checkpoint 中真实模块权重；
+        \item 反映真实参数分布下的量化误差；
+        \item 比纯随机权重更接近实际模型。
+      \end{itemize}
+    \end{block}
+
+    \column{0.48\textwidth}
+    \begin{alertblock}{限制}
+      \begin{itemize}
+        \item 输入仍是 random tensor；
+        \item 没有真实 activation calibration；
+        \item 没有 action trajectory / success rate；
+        \item 因此不等于端到端 $\pi_0$ 量化评估。
+      \end{itemize}
+    \end{alertblock}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Appendix：后续 Vitis HLS 可做的最小实验}
+  \small
+  \begin{table}
+    \begin{tabular}{@{}p{0.24\linewidth}p{0.38\linewidth}p{0.28\linewidth}@{}}
+      \toprule
+      HLS kernel & 设计要点 & 对应模块 \\
+      \midrule
+      INT8 tiled GEMM & loop tiling、pipeline、unroll、array partition & projector、QKV、FFN、action projection \\
+      LUT softmax & fixed-point input、LUT exp、reciprocal 近似 & attention softmax \\
+      PWL GELU & 分段线性拟合、查表参数 & FFN / action expert MLP \\
+      RMSNorm & fixed-point square/mean + rsqrt 近似 & Transformer / action expert \\
+      \bottomrule
+    \end{tabular}
+  \end{table}
 \end{frame}
 
 \end{document}
