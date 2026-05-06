@@ -61,10 +61,11 @@
 
 \begin{alertblock}{研究重点：从架构瓶颈到近似计算}
   \small
-  然后结合$\pi_0$ 推理链路与FPGA资源约束，本次汇报包含如下内容：
+  本次汇报包含如下内容：
 
   \begin{itemize}
-    \item \textbf{XXX：} xxx
+    \item \textbf{$\pi_0$建模、理论推导：}分析部署瓶颈、给出近似计算优化方案；
+    \item \textbf{$PyTorch$实验：}通过量化和神经网络替代方法验证优化方案的有效性；
   \end{itemize}
 
 \end{alertblock}
@@ -93,6 +94,7 @@
 \frametitle{$\pi_0$模型数据流}
 \centering
 \includegraphics[width=.96\textwidth,height=.90\textheight,keepaspectratio]{assets/pi0_vla_flow_model.pdf}
+% 图中 Linear/GEMM 以 visual projector 为例，实际还包括 state/action projection、QKV/O projection、FFN 以及 action expert MLP 中的大量矩阵乘。
 \end{frame}
 
 \begin{frame}[fragile]
