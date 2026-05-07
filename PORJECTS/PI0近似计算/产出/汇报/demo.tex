@@ -151,57 +151,6 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{瓶颈数据：存储与序列长度量级}
-  \small
-  \begin{columns}[T,onlytextwidth]
-    \column{0.45\textwidth}
-    \begin{block}{3.3B 参数权重存储估算}
-      \centering
-      \scriptsize
-      \setlength{\tabcolsep}{5pt}
-      \begin{tabular}{@{}lrr@{}}
-        \toprule
-        精度        & Bytes/param & 权重规模    \\
-        \midrule
-        FP32      & 4.0         & 13.2 GB \\
-        FP16/BF16 & 2.0         & 6.6 GB  \\
-        INT8      & 1.0         & 3.3 GB  \\
-        INT4      & 0.5         & 1.65 GB \\
-        \bottomrule
-      \end{tabular}
-    \end{block}
-
-    \begin{alertblock}{存储含义}
-      即使 INT8 量化，完整权重仍是 GB 级；
-      FPGA 片上存储更适合缓存 tile、activation 和 LUT。
-    \end{alertblock}
-
-    \column{0.51\textwidth}
-    \begin{block}{视觉 token 与 attention score 估算}
-      \centering
-      \scriptsize
-      \setlength{\tabcolsep}{3pt}
-      \begin{tabular}{@{}lrrr@{}}
-        \toprule
-        场景      & tokens & $T^2$ score & 相对 224 单图     \\
-        \midrule
-        224 单图  & 256    & 65K         & 1.0$\times$   \\
-        224 三相机 & 768    & 589K        & 9.0$\times$   \\
-        448 单图  & 1024   & 1.05M       & 16.0$\times$  \\
-        448 三相机 & 3072   & 9.44M       & 144.0$\times$ \\
-        896 单图  & 4096   & 16.78M      & 256.0$\times$ \\
-        \bottomrule
-      \end{tabular}
-    \end{block}
-
-    \begin{exampleblock}{序列长度含义}
-      token 数上升不仅增加视觉前端计算，
-      还会按 $T^2$ 放大 attention score、softmax 和片上缓存压力。
-    \end{exampleblock}
-  \end{columns}
-\end{frame}
-
-\begin{frame}
   \frametitle{瓶颈一：模型规模、访存与视觉 token}
   \small
   \begin{columns}[T,onlytextwidth]
