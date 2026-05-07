@@ -213,6 +213,7 @@
   \footnotesize
   \begin{table}
     \setlength{\tabcolsep}{3pt}
+    \renewcommand{\arraystretch}{1.25}
     \begin{tabular}{@{}p{0.25\linewidth}p{0.43\linewidth}p{0.24\linewidth}@{}}
       \toprule
       模块                     & FPGA 部署瓶颈                  & 近似优化切入点               \\
@@ -279,6 +280,33 @@
   \end{columns}
 \end{frame}
 
+\begin{frame}
+  \frametitle{改进策略：哪些模块最值得近似计算}
+  \footnotesize
+  \begin{table}
+    \renewcommand{\arraystretch}{1.25}
+    \setlength{\tabcolsep}{3pt}
+    \begin{tabular}{@{}p{0.24\linewidth}p{0.42\linewidth}p{0.3\linewidth}@{}}
+      \toprule
+      模块                     & FPGA 部署瓶颈                  & 近似优化切入点               \\
+      \midrule
+      Q/K/V/O Linear           & 大量矩阵乘，DSP 与权重带宽占用高         & INT8 / W4A8 tiled GEMM \\
+      Attention Score $QK^T$ & 序列长度增加后呈二次复杂度              & 分块、低比特 score        \\
+      Softmax                & exp、sum、division 对硬件不友好    & LUT、PWL、Taylor、base-2 \\
+      FFN / MLP              & Transformer 中最大 GEMM 来源之一 & INT8 GEMM、低秩/剪枝       \\
+      GELU / SiLU            & tanh / sigmoid 等非线性成本高       & LUT / PWL / hard approximation \\
+      RMSNorm                & 涉及平方、均值、倒数平方根            & fixed-point + rsqrt          \\
+      Flow Matching           & action expert 多步重复调用        & 减少 Euler steps \\
+      \bottomrule
+    \end{tabular}
+  \end{table}
+
+  \vspace{3pt}
+  \begin{alertblock}{本项目策略}
+    先用 PyTorch 判断误差风险，再把有价值的算子落到 Vitis HLS，得到 latency、II、LUT、FF、BRAM、DSP 等硬件指标。
+  \end{alertblock}
+\end{frame}
+
 \section{Approximation Strategy}
 
 \begin{frame}
@@ -304,6 +332,7 @@
     因此 INT8、INT16 和定点 rsqrt/LUT 都能对应到更小的乘加单元、片上缓存和查表逻辑。
   \end{exampleblock}
 \end{frame}
+
 
 \section{PyTorch Experiments}
 
