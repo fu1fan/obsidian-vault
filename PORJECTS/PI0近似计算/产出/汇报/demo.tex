@@ -151,61 +151,129 @@
 \end{frame}
 
 \begin{frame}
+  \frametitle{瓶颈数据：存储与序列长度量级}
+  \small
+  \begin{columns}[T,onlytextwidth]
+    \column{0.45\textwidth}
+    \begin{block}{3.3B 参数权重存储估算}
+      \centering
+      \scriptsize
+      \setlength{\tabcolsep}{5pt}
+      \begin{tabular}{@{}lrr@{}}
+        \toprule
+        精度        & Bytes/param & 权重规模    \\
+        \midrule
+        FP32      & 4.0         & 13.2 GB \\
+        FP16/BF16 & 2.0         & 6.6 GB  \\
+        INT8      & 1.0         & 3.3 GB  \\
+        INT4      & 0.5         & 1.65 GB \\
+        \bottomrule
+      \end{tabular}
+    \end{block}
+
+    \begin{alertblock}{存储含义}
+      即使 INT8 量化，完整权重仍是 GB 级；
+      FPGA 片上存储更适合缓存 tile、activation 和 LUT。
+    \end{alertblock}
+
+    \column{0.51\textwidth}
+    \begin{block}{视觉 token 与 attention score 估算}
+      \centering
+      \scriptsize
+      \setlength{\tabcolsep}{3pt}
+      \begin{tabular}{@{}lrrr@{}}
+        \toprule
+        场景      & tokens & $T^2$ score & 相对 224 单图     \\
+        \midrule
+        224 单图  & 256    & 65K         & 1.0$\times$   \\
+        224 三相机 & 768    & 589K        & 9.0$\times$   \\
+        448 单图  & 1024   & 1.05M       & 16.0$\times$  \\
+        448 三相机 & 3072   & 9.44M       & 144.0$\times$ \\
+        896 单图  & 4096   & 16.78M      & 256.0$\times$ \\
+        \bottomrule
+      \end{tabular}
+    \end{block}
+
+    \begin{exampleblock}{序列长度含义}
+      token 数上升不仅增加视觉前端计算，
+      还会按 $T^2$ 放大 attention score、softmax 和片上缓存压力。
+    \end{exampleblock}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
   \frametitle{瓶颈一：模型规模、访存与视觉 token}
   \small
   \begin{columns}[T,onlytextwidth]
     \column{0.48\textwidth}
-    \begin{block}{模型规模先卡住存储}
+    \begin{block}{模型规模较大}
       $\pi_0$ 基于约 3B 级 PaliGemma VLM，
       并加入约 300M 参数的 action expert，
-      总规模约 3.3B 参数。
-      openpi README 对推理显存的估计也在 8GB 以上。
+      即使量化到 INT4，权重规模也在 GB 级。\\
+      % 总规模约 3.3B 参数。
+      % openpi README 对推理显存的估计也在 8GB 以上。
+      \vspace{4pt}
+      \setlength{\tabcolsep}{5pt}
+      \begin{tabular}{@{}lrr@{}}
+        \toprule
+        精度        & Bytes/param & 权重规模    \\
+        \midrule
+        FP32      & 4.0         & 13.2 GB \\
+        FP16/BF16 & 2.0         & 6.6 GB  \\
+        INT8      & 1.0         & 3.3 GB  \\
+        INT4      & 0.5         & 1.65 GB \\
+        \bottomrule
+      \end{tabular}
     \end{block}
-
-    \begin{alertblock}{FPGA 上的直接后果}
-      权重难以完整放入 BRAM/URAM；
-      若频繁从 DDR/HBM 搬运权重，
-      片外带宽和延迟可能比单个矩阵乘更致命。
-    \end{alertblock}
-
     \column{0.48\textwidth}
-    \begin{block}{多视角视觉放大序列长度}
+    \begin{block}{模型应用场景决定token数量大}
       PaliGemma 由 SigLIP image encoder、Gemma decoder
-      和线性投影层组成。不同分辨率会产生固定 image tokens：
-      \begin{center}
-        \scriptsize
-        \begin{tabular}{@{}cccc@{}}
-          \toprule
-          分辨率 & 224 & 448 & 896 \\
-          \midrule
-          image tokens & 256 & 1024 & 4096 \\
-          \bottomrule
-        \end{tabular}
-      \end{center}
+      和线性投影层组成。不同分辨率会产生固定 image tokens：\\
+      \vspace{4pt}
+      \begin{tabular}{@{}lrrr@{}}
+        \toprule
+        场景      & tokens & $T^2$ score & 相对 224 单图     \\
+        \midrule
+        224 单图  & 256    & 65K         & 1.0$\times$   \\
+        224 三相机 & 768    & 589K        & 9.0$\times$   \\
+        448 单图  & 1024   & 1.05M       & 16.0$\times$  \\
+        448 三相机 & 3072   & 9.44M       & 144.0$\times$ \\
+        896 单图  & 4096   & 16.78M      & 256.0$\times$ \\
+        \bottomrule
+      \end{tabular}
     \end{block}
-
-    \begin{exampleblock}{视觉侧总结}
+    \vspace{6pt}
+  \end{columns}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.48\textwidth}
+    \begin{alertblock}{模型规模与访存压力}
+      权重难以完整放入 BRAM/URAM；
+      须频繁从 DDR/HBM 搬运权重，
+      导致高延迟和带宽压力。
+    \end{alertblock}
+    \column{0.48\textwidth}
+    \begin{exampleblock}{应用场景压力}
       多相机 + 高分辨率 + ViT token 化，
-      会同时增加前端视觉计算和后端 Transformer attention 开销。
+      会按 $T^2$ 放大 attention score、softmax 和片上缓存压力。
     \end{exampleblock}
   \end{columns}
 \end{frame}
 
 \begin{frame}
   \frametitle{瓶颈二：Transformer GEMM / Attention / 非线性}
-  \scriptsize
+  \footnotesize
   \begin{table}
     \setlength{\tabcolsep}{3pt}
     \begin{tabular}{@{}p{0.25\linewidth}p{0.43\linewidth}p{0.24\linewidth}@{}}
       \toprule
-      模块 & FPGA 部署瓶颈 & 近似优化切入点 \\
+      模块                     & FPGA 部署瓶颈                  & 近似优化切入点               \\
       \midrule
-      Q/K/V Linear & 大量矩阵乘，DSP 与权重带宽占用高 & INT8/INT16 tiled GEMM \\
-      Attention Score $QK^T$ & 序列长度增加后呈二次复杂度 & 低比特 score、稀疏近似 \\
-      Softmax & exp、sum、division 对硬件不友好 & LUT、PWL、Taylor、base-2 \\
-      Attention $\times V$ & 需要缓存 attention map 和 V & 分块流式调度 \\
-      FFN / MLP & 通常是 Transformer 最大 GEMM 来源 & INT8 GEMM、低秩/剪枝 \\
-      RMSNorm / LayerNorm & 涉及平方、均值、倒数或倒平方根 & 定点化、近似 rsqrt \\
+      Q/K/V Linear           & 大量矩阵乘，DSP 与权重带宽占用高         & INT8/INT16 tiled GEMM \\
+      Attention Score $QK^T$ & 序列长度增加后呈二次复杂度              & 低比特 score、稀疏近似        \\
+      Softmax                & exp、sum、division 对硬件不友好    & LUT、PWL、Taylor、base-2 \\
+      Attention $\times V$   & 需要缓存 attention map 和 V     & 分块流式调度                \\
+      FFN / MLP              & 通常是 Transformer 最大 GEMM 来源 & INT8 GEMM、低秩/剪枝       \\
+      RMSNorm / LayerNorm    & 涉及平方、均值、倒数或倒平方根            & 定点化、近似 rsqrt          \\
       \bottomrule
     \end{tabular}
   \end{table}
@@ -270,13 +338,13 @@
   \begin{table}
     \begin{tabular}{@{}p{0.25\linewidth}p{0.37\linewidth}p{0.28\linewidth}@{}}
       \toprule
-      优化对象 & 近似/定点化方法 & 预期收益 \\
+      优化对象               & 近似/定点化方法                                             & 预期收益                  \\
       \midrule
-      Linear / QKV / FFN & INT8、INT4、W4A8 fake quant；INT32/INT24 累加后 requantize & 降低 GEMM 计算和权重存储 \\
-      Softmax & LUT、PWL、Taylor、base-2 softmax & 避免高成本 exp/div \\
-      GELU / SiLU & PWL、hard approximation、clipped linear & 降低复杂激活函数开销 \\
-      RMSNorm & fixed-point + reciprocal sqrt 近似 & 降低 sqrt/div 成本 \\
-      Flow steps & 10 steps $\rightarrow$ 8/6/4/2 steps & 减少 action expert 调用次数 \\
+      Linear / QKV / FFN & INT8、INT4、W4A8 fake quant；INT32/INT24 累加后 requantize & 降低 GEMM 计算和权重存储       \\
+      Softmax            & LUT、PWL、Taylor、base-2 softmax                        & 避免高成本 exp/div         \\
+      GELU / SiLU        & PWL、hard approximation、clipped linear                & 降低复杂激活函数开销            \\
+      RMSNorm            & fixed-point + reciprocal sqrt 近似                     & 降低 sqrt/div 成本        \\
+      Flow steps         & 10 steps $\rightarrow$ 8/6/4/2 steps                 & 减少 action expert 调用次数 \\
       \bottomrule
     \end{tabular}
   \end{table}
@@ -300,11 +368,11 @@
       \setlength{\tabcolsep}{2pt}
       \begin{tabular}{@{}p{0.28\linewidth}p{0.18\linewidth}p{0.22\linewidth}p{0.20\linewidth}@{}}
         \toprule
-        层级 & 输入 & 权重 & 目的 \\
+        层级           & 输入            & 权重         & 目的        \\
         \midrule
-        Random shape & random tensor & random & 看趋势 \\
-        Real weight & random tensor & checkpoint & 看误差 \\
-        Toy flow & 合成 action & 小模型 & 看 step 权衡 \\
+        Random shape & random tensor & random     & 看趋势       \\
+        Real weight  & random tensor & checkpoint & 看误差       \\
+        Toy flow     & 合成 action     & 小模型        & 看 step 权衡 \\
         \bottomrule
       \end{tabular}
     \end{block}
@@ -331,10 +399,10 @@
       \setlength{\tabcolsep}{2pt}
       \begin{tabular}{@{}p{0.37\linewidth}cc@{}}
         \toprule
-        实验设置 & INT8 最低 cosine & INT4 最低 cosine \\
+        实验设置                   & INT8 最低 cosine & INT4 最低 cosine \\
         \midrule
-        $\pi_0$-aligned random & 0.998402 & 0.963150 \\
-        real $\pi_0$ weight & 0.994843 & 0.921080 \\
+        $\pi_0$-aligned random & 0.998402       & 0.963150       \\
+        real $\pi_0$ weight    & 0.994843       & 0.921080       \\
         \bottomrule
       \end{tabular}
     \end{table}
@@ -437,15 +505,15 @@
   \begin{table}
     \begin{tabular}{@{}p{0.24\linewidth}p{0.38\linewidth}p{0.30\linewidth}@{}}
       \toprule
-      模块 & 实验 shape / 结构 & 对应优化点 \\
+      模块                      & 实验 shape / 结构                                                              & 对应优化点               \\
       \midrule
-      Visual projector & $[1,768,1152] \rightarrow [1,768,2048]$ & Linear / GEMM \\
-      VLM attention & $q:2048\rightarrow2048$, $k/v:2048\rightarrow256$, $o:2048\rightarrow2048$ & QKV Linear, Softmax \\
-      VLM FFN & $2048 \rightarrow 16384 \rightarrow 2048$，gated FFN & FFN, GELU/SiLU \\
-      Action expert FFN & $1024 \rightarrow 4096 \rightarrow 1024$ & Action Expert MLP \\
-      State/action projection & $32\rightarrow1024$, $1024\rightarrow32$ & Linear / GEMM \\
-      RMSNorm & $[1,768,2048]$, $[1,50,1024]$ & fixed-point + rsqrt \\
-      Flow matching toy & $H=50$, action dim $=32$, steps $=10/8/6/4/2$ & Flow Step Reduction \\
+      Visual projector        & $[1,768,1152] \rightarrow [1,768,2048]$                                    & Linear / GEMM       \\
+      VLM attention           & $q:2048\rightarrow2048$, $k/v:2048\rightarrow256$, $o:2048\rightarrow2048$ & QKV Linear, Softmax \\
+      VLM FFN                 & $2048 \rightarrow 16384 \rightarrow 2048$，gated FFN                        & FFN, GELU/SiLU      \\
+      Action expert FFN       & $1024 \rightarrow 4096 \rightarrow 1024$                                   & Action Expert MLP   \\
+      State/action projection & $32\rightarrow1024$, $1024\rightarrow32$                                   & Linear / GEMM       \\
+      RMSNorm                 & $[1,768,2048]$, $[1,50,1024]$                                              & fixed-point + rsqrt \\
+      Flow matching toy       & $H=50$, action dim $=32$, steps $=10/8/6/4/2$                              & Flow Step Reduction \\
       \bottomrule
     \end{tabular}
   \end{table}
@@ -482,12 +550,12 @@
   \begin{table}
     \begin{tabular}{@{}p{0.24\linewidth}p{0.38\linewidth}p{0.28\linewidth}@{}}
       \toprule
-      HLS kernel & 设计要点 & 对应模块 \\
+      HLS kernel      & 设计要点                                        & 对应模块                                \\
       \midrule
       INT8 tiled GEMM & loop tiling、pipeline、unroll、array partition & projector、QKV、FFN、action projection \\
-      LUT softmax & fixed-point input、LUT exp、reciprocal 近似 & attention softmax \\
-      PWL GELU & 分段线性拟合、查表参数 & FFN / action expert MLP \\
-      RMSNorm & fixed-point square/mean + rsqrt 近似 & Transformer / action expert \\
+      LUT softmax     & fixed-point input、LUT exp、reciprocal 近似     & attention softmax                   \\
+      PWL GELU        & 分段线性拟合、查表参数                                 & FFN / action expert MLP             \\
+      RMSNorm         & fixed-point square/mean + rsqrt 近似          & Transformer / action expert         \\
       \bottomrule
     \end{tabular}
   \end{table}
