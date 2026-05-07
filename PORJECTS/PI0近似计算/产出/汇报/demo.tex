@@ -22,7 +22,6 @@
   titlepage=moloch,
   sectionpage=none,
   progressbar=frametitle,
-  block=fill,
 ]{moloch}
 
 \setbeamertemplate{page number in head/foot}[appendixframenumber]
@@ -51,44 +50,46 @@
 
 \begin{frame}
   \frametitle{研究切入点}
-  \small
   \begin{columns}[T,onlytextwidth]
-    \column{0.50\textwidth}
-
-    \begin{block}{从题目中的 VLM 到真实 $\pi_0$}
+    \column{0.5 \textwidth}
+    \begin{block}{$\pi_0$ 的模型特点}
+      \small
+      在视觉--语言模型的基础上，$\pi_0$ 进一步面向机器人控制任务，
+      其核心区别在于：
       \begin{itemize}
-        \item 题目给出的是视觉编码器、投影网络、语言模型这条简化 VLM 链路；
-        \item 真实 $\pi_0$ 还包含机器人状态、动作 token、action expert 和 flow matching；
-        \item 输出是连续动作向量，误差不能只看分类准确率，还要看向量偏差和轨迹影响。
+        \item Prefix-Suffix 推理模式；
+              % 图像语言 prefix 主要由 VLM backbone 处理并可缓存；状态和动作 suffix 由 action expert 在 flow matching 中反复计算，因此 FPGA 优化重点应放在 suffix/action expert 中重复出现的 Linear、Attention 和 MLP。
+        \item Flow Matching 多步迭代推理；
+              % π0 不是一次 forward 直接输出结果，而是通过 10 步左右的 denoising / Euler 更新生成动作。
+              % 近似计算收益会被重复调用放大，flow steps 数量本身也可成为优化变量。
+        \item 连续动作 token 带来的数值精度敏感性；
+              % 输出是连续动作向量，不是离散文本 token，因此量化误差不能只看分类准确率或 top-k，而要看向量误差、cosine similarity、轨迹偏差等。
+              % → 误差评估指标需要从 NLP 指标转向数值/控制相关指标。
       \end{itemize}
     \end{block}
-
-    \begin{alertblock}{本次汇报回答两个问题}
+    \begin{alertblock}{研究重点：从架构瓶颈到近似计算}
+      \small
+      本研究包含如下内容：
       \begin{itemize}
-        \item $\pi_0$ 推理链路中，哪些部分会卡住 FPGA 部署；
-        \item 面向这些瓶颈，近似计算应优先改哪些模块。
+        \item \textbf{$\pi_0$建模、理论推导：} 分析部署瓶颈、给出近似计算优化方案；
+        \item \textbf{$PyTorch$实验：} 通过量化和神经网络替代方法验证优化方案的有效性；
+        \item \textbf{$Vitis HLS$测试：} 实现关键模块，评估资源占用、性能提升和误差影响；
       \end{itemize}
     \end{alertblock}
-
-    \column{0.45\textwidth}
-
+    \column{0.43\textwidth}
     \begin{exampleblock}{原题（概括）}
       \footnotesize
+      \vspace{6pt}
       \textbf{任务一：分析 $\pi_0$ 推理架构与 FPGA 部署瓶颈。} \\
-      说明图像特征如何经投影网络进入语言模型，并分析 FPGA 上的计算、存储、带宽和精度瓶颈。
-
+      说明推理阶段的数据流：图像经 ViT 等视觉编码器提取特征，再由投影网络映射到语言模型嵌入空间，作为视觉 token 参与后续生成。\\
+      \vspace{2pt}
+      结合 FPGA 的 LUT、BRAM、DSP 等资源，分析矩阵乘法与注意力计算复杂度高、模型参数和中间激活占用存储大、片外访存带宽压力大，以及定点化精度控制困难等问题。
       \vspace{6pt}
       \textbf{任务二：设计一种面向 $\pi_0$ 的近似计算优化方案。} \\
-      可选择量化，也可选择查表、分段线性、低秩近似等替代方法，并说明误差与硬件收益。
+      量化方向：对视觉编码器、投影层和语言模型中的 Linear、Attention、FFN 等模块进行 INT8/INT4 或混合精度量化，利用 FPGA DSP 定点乘加加速；\\
+      \vspace{2pt}
+      神经网络替代方向：用分段线性函数、查表法或低秩近似替代复杂非线性激活、高维矩阵运算或部分注意力计算，并评估误差与硬件资源收益。
     \end{exampleblock}
-
-    \begin{block}{为什么采用模块级验证}
-      \footnotesize
-      完整 openpi 与 $\pi_0$ 推理依赖 checkpoint、GPU 环境和端到端任务数据。
-      本次 FPGA 小项目聚焦红框中的 GEMM、attention、FFN、norm 和 flow steps，
-      先判断哪些模块最值得放到硬件上优化。
-    \end{block}
-
   \end{columns}
 \end{frame}
 
@@ -117,29 +118,146 @@
 \section{Architecture Bottleneck}
 
 \begin{frame}
-  \frametitle{任务一：$\pi_0$ 推理链路中的 FPGA 部署瓶颈}
+  \frametitle{任务一：FPGA 部署瓶颈总览}
+  \small
+  \begin{columns}[T,onlytextwidth]
+    \column{0.49\textwidth}
+    \begin{block}{不是单一算子问题}
+      $\pi_0$ 的瓶颈来自完整推理链路叠加：
+      \begin{itemize}
+        \item 模型规模与片外访存；
+        \item 多视角视觉 token 膨胀；
+        \item Transformer GEMM / Attention；
+      \end{itemize}
+    \end{block}
+
+    \column{0.47\textwidth}
+    \begin{block}{VLA 额外困难}
+      与普通 VLM 相比，机器人动作链路还引入：
+      \begin{itemize}
+        \item Softmax / GELU / SiLU / RMSNorm；
+        \item flow matching 多步迭代；
+        \item 连续状态和动作的定点精度敏感性。
+      \end{itemize}
+    \end{block}
+  \end{columns}
+
+  \vspace{4pt}
+  \begin{alertblock}{核心结论}
+    完整 $\pi_0$ 不适合直接部署到资源受限 FPGA；
+    更合理的路线是抽取 projector、Linear/GEMM、attention softmax、
+    norm/activation 和 action expert 小模块做近似计算与 HLS kernel 验证。
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{瓶颈一：模型规模、访存与视觉 token}
   \small
   \begin{columns}[T,onlytextwidth]
     \column{0.48\textwidth}
-    \begin{block}{计算量}
-      Linear、QKV、FFN 和 projector 中大量 GEMM 占主导，
-      会直接消耗 DSP 和片上并行资源。
+    \begin{block}{模型规模先卡住存储}
+      $\pi_0$ 基于约 3B 级 PaliGemma VLM，
+      并加入约 300M 参数的 action expert，
+      总规模约 3.3B 参数。
+      openpi README 对推理显存的估计也在 8GB 以上。
     \end{block}
 
-    \begin{block}{存储与带宽}
-      VLM backbone 和 FFN 权重很大，中间激活也很宽。
-      BRAM 难以全部容纳，片外权重搬运容易成为瓶颈。
-    \end{block}
+    \begin{alertblock}{FPGA 上的直接后果}
+      权重难以完整放入 BRAM/URAM；
+      若频繁从 DDR/HBM 搬运权重，
+      片外带宽和延迟可能比单个矩阵乘更致命。
+    \end{alertblock}
 
     \column{0.48\textwidth}
-    \begin{block}{非线性函数}
-      Softmax、GELU/SiLU、RMSNorm 中有 exp、div、sqrt，
-      定点实现成本高，误差也更难控制。
+    \begin{block}{多视角视觉放大序列长度}
+      PaliGemma 由 SigLIP image encoder、Gemma decoder
+      和线性投影层组成。不同分辨率会产生固定 image tokens：
+      \begin{center}
+        \scriptsize
+        \begin{tabular}{@{}cccc@{}}
+          \toprule
+          分辨率 & 224 & 448 & 896 \\
+          \midrule
+          image tokens & 256 & 1024 & 4096 \\
+          \bottomrule
+        \end{tabular}
+      \end{center}
     \end{block}
 
-    \begin{alertblock}{多步推理}
-      Flow matching 需要反复调用 action expert。
-      每减少一次 step，都可能同时减少一次 MLP 和 attention 计算。
+    \begin{exampleblock}{视觉侧总结}
+      多相机 + 高分辨率 + ViT token 化，
+      会同时增加前端视觉计算和后端 Transformer attention 开销。
+    \end{exampleblock}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{瓶颈二：Transformer GEMM / Attention / 非线性}
+  \scriptsize
+  \begin{table}
+    \setlength{\tabcolsep}{3pt}
+    \begin{tabular}{@{}p{0.25\linewidth}p{0.43\linewidth}p{0.24\linewidth}@{}}
+      \toprule
+      模块 & FPGA 部署瓶颈 & 近似优化切入点 \\
+      \midrule
+      Q/K/V Linear & 大量矩阵乘，DSP 与权重带宽占用高 & INT8/INT16 tiled GEMM \\
+      Attention Score $QK^T$ & 序列长度增加后呈二次复杂度 & 低比特 score、稀疏近似 \\
+      Softmax & exp、sum、division 对硬件不友好 & LUT、PWL、Taylor、base-2 \\
+      Attention $\times V$ & 需要缓存 attention map 和 V & 分块流式调度 \\
+      FFN / MLP & 通常是 Transformer 最大 GEMM 来源 & INT8 GEMM、低秩/剪枝 \\
+      RMSNorm / LayerNorm & 涉及平方、均值、倒数或倒平方根 & 定点化、近似 rsqrt \\
+      \bottomrule
+    \end{tabular}
+  \end{table}
+
+  \vspace{3pt}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.49\textwidth}
+    \begin{block}{主干参数尺度}
+      PaliGemma/Gemma 配置可按 width=2048、depth=18、
+      MLP dim=16384、num heads=18、head dim=256 理解。
+      GEMM 与 attention 是主要计算负载。
+    \end{block}
+
+    \column{0.47\textwidth}
+    \begin{alertblock}{近似计算重点}
+      FPGA 擅长定点乘加，不擅长 exp/div/sqrt。
+      因此 softmax、GELU/SiLU 和 RMSNorm
+      很适合用 Vitis HLS 做 LUT/PWL/定点近似验证。
+    \end{alertblock}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{瓶颈三：Flow Matching 与连续动作精度}
+  \small
+  \begin{columns}[T,onlytextwidth]
+    \column{0.49\textwidth}
+    \begin{block}{动作生成是迭代式的}
+      $\pi_0$ 不是一次性直接输出动作，
+      而是从 noisy action 出发，
+      用 forward Euler 从 $\tau=0$ 积分到 $\tau=1$。
+      论文实验中使用 10 个 integration steps。
+    \end{block}
+
+    \begin{exampleblock}{实时性影响}
+      一个控制周期内 action expert 需要多次前向。
+      即使 prefix/state KV 可缓存，动作 token 每步变化，
+      仍会带来重复计算；50Hz 控制约对应 20ms 单周期预算。
+    \end{exampleblock}
+
+    \column{0.47\textwidth}
+    \begin{block}{连续状态/动作对误差敏感}
+      文本 logits 可容忍一定排序误差，
+      但机器人状态 $q_t$ 和连续 action chunk 的误差会直接反映到轨迹。
+      低比特定点可能造成抖动、漂移或饱和。
+    \end{block}
+
+    \begin{alertblock}{本项目落点}
+      不做完整 $\pi_0$ 上板。
+      优先评估 INT8/INT16 Linear/GEMM、projector、
+      LUT/PWL softmax、GELU/SiLU/RMSNorm 近似，
+      以及减少 flow steps 对误差和延迟的影响。
     \end{alertblock}
   \end{columns}
 \end{frame}
