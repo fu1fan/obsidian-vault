@@ -46,7 +46,12 @@
 
 \maketitle
 
-\section{Introduction}
+\begin{frame}
+  \frametitle{目录}
+  \tableofcontents[hideallsubsections]
+\end{frame}
+
+\section{引言}
 
 \begin{frame}
   \frametitle{研究切入点}
@@ -83,7 +88,7 @@
       \textbf{任务一：分析 $\pi_0$ 推理架构与 FPGA 部署瓶颈。} \\
       说明推理阶段的数据流：图像经 ViT 等视觉编码器提取特征，再由投影网络映射到语言模型嵌入空间，作为视觉 token 参与后续生成。\\
       \vspace{2pt}
-      结合 FPGA 的 LUT、BRAM、DSP 等资源，分析矩阵乘法与注意力计算复杂度高、模型参数和中间激活占用存储大、片外访存带宽压力大，以及定点化精度控制困难等问题。
+      结合 FPGA 的 LUT、BRAM、DSP 等资源，分析矩阵乘法与注意力计算复杂度高、模型参数和中间激活占用存储大、片外访存带宽压力大，以及定点化精度控制困难等问题。\\
       \vspace{6pt}
       \textbf{任务二：设计一种面向 $\pi_0$ 的近似计算优化方案。} \\
       量化方向：对视觉编码器、投影层和语言模型中的 Linear、Attention、FFN 等模块进行 INT8/INT4 或混合精度量化，利用 FPGA DSP 定点乘加加速；\\
@@ -115,7 +120,7 @@
 \end{frame}
 
 
-\section{Architecture Bottleneck}
+\section{任务一：分析\texorpdfstring{$\pi_0$}{pi0}推理架构与FPGA部署瓶颈}
 
 \begin{frame}
   \frametitle{任务一：FPGA 部署瓶颈总览}
@@ -209,76 +214,74 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{瓶颈二：Transformer GEMM / Attention / 非线性}
+  \frametitle{瓶颈二：算子类型与 FPGA 优势不匹配}
   \footnotesize
   \begin{table}
     \setlength{\tabcolsep}{3pt}
     \renewcommand{\arraystretch}{1.25}
-    \begin{tabular}{@{}p{0.25\linewidth}p{0.43\linewidth}p{0.24\linewidth}@{}}
+    \begin{tabular}{@{}p{0.3\linewidth}p{0.32\linewidth}p{0.36\linewidth}@{}}
       \toprule
-      模块                     & FPGA 部署瓶颈                  & 近似优化切入点               \\
+      $\pi_0$ 中的位置                  & 涉及的算子类型                        & FPGA 不擅长之处                                           \\
       \midrule
-      Q/K/V Linear           & 大量矩阵乘，DSP 与权重带宽占用高         & INT8/INT16 tiled GEMM \\
-      Attention Score $QK^T$ & 序列长度增加后呈二次复杂度              & 低比特 score、稀疏近似        \\
-      Softmax                & exp、sum、division 对硬件不友好    & LUT、PWL、Taylor、base-2 \\
-      Attention $\times V$   & 需要缓存 attention map 和 V     & 分块流式调度                \\
-      FFN / MLP              & 通常是 Transformer 最大 GEMM 来源 & INT8 GEMM、低秩/剪枝       \\
-      RMSNorm / LayerNorm    & 涉及平方、均值、倒数或倒平方根            & 定点化、近似 rsqrt          \\
+      SigLIP / PaliGemma 图像 token   & ViT attention softmax          & $QK^T$ 后有 exp、reduce-sum、division；token 增加还会放大片上缓存压力 \\
+      Gemma / action expert 注意力     & masked softmax、attention map   & 动态 score 矩阵和归一化不易流式化，attention map 难完全驻留片上           \\
+      Gemma MLP / action expert MLP & GELU / SiLU / gated activation & 非线性激活不是 FPGA 最擅长的规则乘加，定点误差会影响连续动作输出                  \\
+      各 Transformer block           & RMSNorm / LayerNorm            & square、mean、rsqrt 或 division 形成归约和倒数平方根瓶颈            \\
+      位置与时间条件注入                     & RoPE、timestep embedding        & sin/cos、逐元素旋转和广播混合，控制逻辑比单纯 GEMM 更零散                  \\
+      Flow Matching 迭代采样            & 多步 denoising / Euler update    & 单步算子不复杂，但重复调用会放大上述非线性与归约算子的延迟                        \\
       \bottomrule
     \end{tabular}
   \end{table}
 
   \vspace{3pt}
-  \begin{columns}[T,onlytextwidth]
-    \column{0.49\textwidth}
-    \begin{block}{主干参数尺度}
-      PaliGemma/Gemma 配置可按 width=2048、depth=18、
-      MLP dim=16384、num heads=18、head dim=256 理解。
-      GEMM 与 attention 是主要计算负载。
-    \end{block}
-
-    \column{0.47\textwidth}
-    \begin{alertblock}{近似计算重点}
-      FPGA 擅长定点乘加，不擅长 exp/div/sqrt。
-      因此 softmax、GELU/SiLU 和 RMSNorm
-      很适合用 Vitis HLS 做 LUT/PWL/定点近似验证。
-    \end{alertblock}
-  \end{columns}
+  \begin{block}{核心矛盾}
+    FPGA 的高效区间是规则、可流水、可定点化的乘加阵列；
+    $\pi_0$ 的关键路径却混入 softmax、Norm、激活函数和位置/时间编码等
+    非规则算子。
+  \end{block}
 \end{frame}
 
 \begin{frame}
-  \frametitle{瓶颈三：Flow Matching 与连续动作精度}
+  \frametitle{瓶颈三：定点加速与连续动作误差}
   \small
+  \begin{block}{核心矛盾}
+    FPGA 的高吞吐来自低比特定点乘加；但 $\pi_0$ 输出的是连续 action chunk，
+    量化误差会沿 flow matching 的多步更新进入机器人轨迹。
+  \end{block}
+
+  \vspace{2pt}
   \begin{columns}[T,onlytextwidth]
     \column{0.49\textwidth}
-    \begin{block}{动作生成是迭代式的}
-      $\pi_0$ 不是一次性直接输出动作，
-      而是从 noisy action 出发，
-      用 forward Euler 从 $\tau=0$ 积分到 $\tau=1$。
-      论文实验中使用 10 个 integration steps。
-    \end{block}
-
-    \begin{exampleblock}{实时性影响}
-      一个控制周期内 action expert 需要多次前向。
-      即使 prefix/state KV 可缓存，动作 token 每步变化，
-      仍会带来重复计算；50Hz 控制约对应 20ms 单周期预算。
+    \begin{exampleblock}{FPGA擅长量化计算}
+      INT8/INT16 更适合 DSP 并行展开，
+      权重、KV cache 和中间激活的片上存储压力也会下降。\\
+      \vspace{3pt}
+      但 $\pi_0$ 的 action expert 在一次动作生成中要被重复调用；
+      论文实验使用 10 个 integration steps，
+      所以单步量化收益会被多步推理放大。
     \end{exampleblock}
 
     \column{0.47\textwidth}
-    \begin{block}{连续状态/动作对误差敏感}
-      文本 logits 可容忍一定排序误差，
-      但机器人状态 $q_t$ 和连续 action chunk 的误差会直接反映到轨迹。
-      低比特定点可能造成抖动、漂移或饱和。
-    \end{block}
-
-    \begin{alertblock}{本项目落点}
-      不做完整 $\pi_0$ 上板。
-      优先评估 INT8/INT16 Linear/GEMM、projector、
-      LUT/PWL softmax、GELU/SiLU/RMSNorm 近似，
-      以及减少 flow steps 对误差和延迟的影响。
+    \begin{alertblock}{为什么 $\pi_0$ 难量化}
+      推理时动作由 Euler 更新得到：
+      \[
+        A_t^{\tau+\delta}=A_t^\tau+\delta v_\theta(A_t^\tau,o_t)
+      \]
+      若定点化引入 $e_q$：
+      \[
+        \hat A_t^{\tau+\delta}
+        =\hat A_t^\tau+\delta\{v_\theta(\hat A_t^\tau,o_t)+e_q\}
+      \]
     \end{alertblock}
+
+    \vspace{2pt}
+    文本 logits 只需保持排序大体正确；
+    连续动作误差会直接变成轨迹偏差，
+    多步迭代后可能表现为抖动、漂移或饱和。
   \end{columns}
 \end{frame}
+
+\section{任务二：近似计算方案与实验设计}
 
 \begin{frame}
   \frametitle{改进策略：哪些模块最值得近似计算}
@@ -288,15 +291,15 @@
     \setlength{\tabcolsep}{3pt}
     \begin{tabular}{@{}p{0.24\linewidth}p{0.42\linewidth}p{0.3\linewidth}@{}}
       \toprule
-      模块                     & FPGA 部署瓶颈                  & 近似优化切入点               \\
+      模块                     & FPGA 部署瓶颈                 & 近似优化切入点                        \\
       \midrule
-      Q/K/V/O Linear           & 大量矩阵乘，DSP 与权重带宽占用高         & INT8 / W4A8 tiled GEMM \\
-      Attention Score $QK^T$ & 序列长度增加后呈二次复杂度              & 分块、低比特 score        \\
-      Softmax                & exp、sum、division 对硬件不友好    & LUT、PWL、Taylor、base-2 \\
-      FFN / MLP              & Transformer 中最大 GEMM 来源之一 & INT8 GEMM、低秩/剪枝       \\
-      GELU / SiLU            & tanh / sigmoid 等非线性成本高       & LUT / PWL / hard approximation \\
-      RMSNorm                & 涉及平方、均值、倒数平方根            & fixed-point + rsqrt          \\
-      Flow Matching           & action expert 多步重复调用        & 减少 Euler steps \\
+      Q/K/V/O Linear         & 大量矩阵乘，DSP 与权重带宽占用高        & INT8 / W4A8 tiled GEMM         \\
+      Attention Score $QK^T$ & 序列长度增加后呈二次复杂度             & 分块、低比特 score                   \\
+      Softmax                & exp、sum、division 对硬件不友好   & LUT、PWL、Taylor、base-2          \\
+      FFN / MLP              & Transformer 中最大 GEMM 来源之一 & INT8 GEMM、低秩/剪枝                \\
+      GELU / SiLU            & tanh / sigmoid 等非线性成本高    & LUT / PWL / hard approximation \\
+      RMSNorm                & 涉及平方、均值、倒数平方根             & fixed-point + rsqrt            \\
+      Flow Matching          & action expert 多步重复调用      & 减少 Euler steps                 \\
       \bottomrule
     \end{tabular}
   \end{table}
@@ -306,8 +309,6 @@
     先用 PyTorch 判断误差风险，再把有价值的算子落到 Vitis HLS，得到 latency、II、LUT、FF、BRAM、DSP 等硬件指标。
   \end{alertblock}
 \end{frame}
-
-\section{Approximation Strategy}
 
 \begin{frame}
   \frametitle{任务二：面向 $\pi_0$ 的模块级近似计算方案}
@@ -334,7 +335,41 @@
 \end{frame}
 
 
-\section{PyTorch Experiments}
+\begin{frame}
+  \frametitle{实验工作量总览：从算法误差到 HLS 可综合验证}
+  \small
+  \begin{columns}[T,onlytextwidth]
+    \column{0.52\textwidth}
+    \begin{block}{PyTorch 侧：模块误差与趋势评估}
+      \scriptsize
+      基础算子：Linear / projector / softmax / GELU / RMSNorm。\\
+      \vspace{2pt}
+      模型对齐：scale sweep、$\pi_0$-aligned random proxy、
+      real-weight + random input。\\
+      \vspace{2pt}
+      算法旋钮：$\pi_0$-shape toy flow step reduction。
+    \end{block}
+
+    \column{0.44\textwidth}
+    \begin{alertblock}{Vitis HLS 侧：硬件可实现性验证}
+      \scriptsize
+      近似 kernel：INT8 GEMM、LUT softmax、PWL GELU、
+      RMSNorm rsqrt、fixed-point projector tile。\\
+      \vspace{2pt}
+      对比基线：exact softmax / GELU / RMSNorm。\\
+      \vspace{2pt}
+      输出指标：latency、II、clock、LUT、FF、BRAM、DSP。
+    \end{alertblock}
+  \end{columns}
+
+  \vspace{3pt}
+  \begin{exampleblock}{主要输出}
+    CSV / figures / HLS report / kernel summary / before-after comparison，
+    形成“误差趋势 $\rightarrow$ 可综合验证”的闭环。
+  \end{exampleblock}
+\end{frame}
+
+\section{PyTorch 实验结果}
 
 \begin{frame}
   \frametitle{PyTorch 实验设计：从随机张量到真实权重}
@@ -407,7 +442,7 @@
     \column{0.32\textwidth}
     \begin{block}{Softmax}
       LUT softmax 在真实 Q/K score 上 relative L2 约为 $4.3\times10^{-5}$，
-      适合后续做 HLS LUT kernel。
+      已迁移到 HLS LUT kernel 验证。
     \end{block}
 
     \column{0.32\textwidth}
@@ -454,21 +489,131 @@
   \end{columns}
 \end{frame}
 
-\section{Conclusion}
+\section{Vitis HLS 实验结果}
 
 \begin{frame}
-  \frametitle{总结与后续工作}
+  \frametitle{Vitis HLS 实验：关键模块可综合验证}
+  \small
+  \begin{table}
+    \scriptsize
+    \setlength{\tabcolsep}{2pt}
+    \begin{tabular}{@{}p{0.22\linewidth}p{0.30\linewidth}p{0.38\linewidth}@{}}
+      \toprule
+      HLS kernel & 对应 $\pi_0$ 模块 & 验证内容 \\
+      \midrule
+      INT8 GEMM & projector / QKV / FFN / action projection & INT8 乘加、INT32 累加、INT16 requantize \\
+      LUT softmax & attention score normalization & max-subtraction、clamp、LUT exp、归一化 \\
+      PWL GELU & FFN / action expert activation & 16 段 PWL 近似，替代 tanh GELU \\
+      RMSNorm rsqrt & Transformer / action expert norm & fixed-point + LUT 初始化 + Newton-Raphson \\
+      fixed projector tile & visual projector tile & $[64,1152]\rightarrow[64,256]$ 定点 projector \\
+      exact baselines & softmax / GELU / RMSNorm & 用于 before/after 对比 \\
+      \bottomrule
+    \end{tabular}
+  \end{table}
+
+  \begin{exampleblock}{验证指标}
+    C-sim 数值误差 + C-synthesis 报告：latency、II、estimated clock、LUT、FF、BRAM、DSP。
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{HLS 结果一：延迟、资源与数值误差}
+  \scriptsize
+  \begin{table}
+    \setlength{\tabcolsep}{2pt}
+    \begin{tabular}{@{}p{0.16\linewidth}p{0.20\linewidth}rrrrrp{0.20\linewidth}@{}}
+      \toprule
+      Kernel & Shape & Latency & LUT & FF & BRAM & DSP & 误差指标 \\
+      \midrule
+      INT8 GEMM & $50\times32\times1024$ & 1,742,214 & 6,953 & 4,024 & 19 & 5 & MSE=0, cosine=1.0 \\
+      LUT Softmax & rows4 len128 & 1,867 & 3,692 & 2,727 & 9 & 2 & KL=1.75e-3, cos=0.9993 \\
+      PWL GELU & len4096 & 4,114 & 2,301 & 1,806 & 1 & 2 & rel-L2=3.07e-3 \\
+      RMSNorm rsqrt & hidden1024 & 2,080 & 5,649 & 3,857 & 2 & 64 & cos $>0.9999998$ \\
+      \bottomrule
+    \end{tabular}
+  \end{table}
+
+  \vspace{3pt}
+  \begin{alertblock}{结论}
+    HLS 结果证明：选定近似对象不是停留在 PyTorch 仿真层面，
+    而是可以形成可综合 kernel，并能输出 FPGA 资源与延迟报告。
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{HLS 结果二：exact baseline vs approximate kernel}
+  \scriptsize
+  \begin{table}
+    \setlength{\tabcolsep}{2pt}
+    \begin{tabular}{@{}p{0.16\linewidth}p{0.22\linewidth}p{0.20\linewidth}p{0.15\linewidth}p{0.19\linewidth}@{}}
+      \toprule
+      对比对象 & baseline & approximate & 时间收益 & 资源变化 \\
+      \midrule
+      Softmax & float exp softmax & LUT softmax & $1.92\times$ & DSP $-85.7$，LUT $-10.7$ \\
+      GELU & float tanh GELU & 16-seg PWL GELU & $1.01\times$ & LUT $-70.7$，DSP $-96.7$ \\
+      RMSNorm & float sqrt RMSNorm & rsqrt + NR & $2.09\times$ & LUT $+54.5$，DSP $+540$ \\
+      \bottomrule
+    \end{tabular}
+  \end{table}
+
+  \begin{exampleblock}{分析}
+    Softmax 和 GELU 的近似替换资源收益明显；
+    当前 RMSNorm rsqrt 主要改善 estimated clock/time，
+    但 DSP 代价偏高，后续应优化 LUT/NR 数据通路或降低并行度。
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{实验闭环：PyTorch 负责选方向，HLS 负责证实可实现}
+  \small
+  \begin{columns}[T,onlytextwidth]
+    \column{0.47\textwidth}
+    \begin{block}{PyTorch 侧回答}
+      \footnotesize
+      INT8 在 random、$\pi_0$-aligned 和 real-weight 下均较稳；
+      INT4/W4A8 压缩强但真实权重误差偏高。\\
+      \vspace{2pt}
+      LUT softmax、RMSNorm rsqrt 误差可控；
+      激进 activation replacement 风险高；
+      flow step reduction 有潜在加速收益。
+    \end{block}
+
+    \column{0.49\textwidth}
+    \begin{alertblock}{HLS 侧回答}
+      \footnotesize
+      INT8 GEMM 可综合，面向 projector / QKV / FFN / action projection。\\
+      \vspace{2pt}
+      LUT softmax 明显减少 DSP；
+      PWL GELU 明显减少 LUT/DSP。\\
+      \vspace{2pt}
+      RMSNorm rsqrt 误差很小，但当前实现资源仍需优化。
+    \end{alertblock}
+  \end{columns}
+
+  \vspace{3pt}
+  \begin{exampleblock}{闭环结论}
+    推荐主线：INT8 GEMM + LUT softmax + 保守 PWL GELU + fixed-point RMSNorm；
+    flow step reduction 作为算法级优化旋钮单独讨论。
+  \end{exampleblock}
+\end{frame}
+
+\section{总结}
+
+\begin{frame}
+  \frametitle{总结与边界}
   \small
   \begin{enumerate}
-    \item \textbf{架构层面：} $\pi_0$ 是 VLM backbone + action expert + flow matching，FPGA 优化应先抓关键模块。
-    \item \textbf{算子层面：} GEMM 是主瓶颈，INT8 是目前最稳的定点化方向。
-    \item \textbf{非线性层面：} Softmax / RMSNorm 可用 LUT、PWL、rsqrt 近似，GELU/SiLU 需要谨慎。
-    \item \textbf{实验层面：} 已完成 random shape、real-weight 和 toy flow step reduction；后续可补 HLS tiled GEMM、LUT softmax 和 PWL GELU。
+    \item \textbf{架构层面：} $\pi_0$ 是 VLM backbone + action expert + flow matching，完整上板不现实，应拆成可优化模块。
+    \item \textbf{PyTorch 层面：} 已完成 random shape、real-weight proxy 和 toy flow step reduction；INT8 是当前最稳的 GEMM 类量化方案。
+    \item \textbf{HLS 层面：} 已实现并综合 INT8 GEMM、LUT softmax、PWL GELU、RMSNorm rsqrt 和 fixed projector tile，获得 latency、II、LUT、FF、BRAM、DSP 数据。
+    \item \textbf{方案判断：} Softmax/GELU 近似在 HLS 中资源收益明显；RMSNorm 误差较小但当前 DSP 代价偏高；INT4/W4A8 和激进 activation replacement 需谨慎。
   \end{enumerate}
 
-  \begin{block}{一句话收束}
-    本次工作不是复现完整 $\pi_0$，而是把推理链路拆成可在 FPGA 上优化的关键模块，并用 PyTorch 先验证近似方向是否站得住。
+  \begin{block}{总结}
+    本次工作不是复现完整 $\pi_0$，而是把 VLA 推理链路拆成可在 FPGA 上验证的关键模块，并完成从 PyTorch 误差评估到 Vitis HLS 可综合报告的闭环验证。
   \end{block}
+
+  \vspace{10pt}
 
   \centering
   \small 谢谢老师，请批评指正。
@@ -521,23 +666,6 @@
       \end{itemize}
     \end{alertblock}
   \end{columns}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Appendix：后续 Vitis HLS 可做的最小实验}
-  \small
-  \begin{table}
-    \begin{tabular}{@{}p{0.24\linewidth}p{0.38\linewidth}p{0.28\linewidth}@{}}
-      \toprule
-      HLS kernel      & 设计要点                                        & 对应模块                                \\
-      \midrule
-      INT8 tiled GEMM & loop tiling、pipeline、unroll、array partition & projector、QKV、FFN、action projection \\
-      LUT softmax     & fixed-point input、LUT exp、reciprocal 近似     & attention softmax                   \\
-      PWL GELU        & 分段线性拟合、查表参数                                 & FFN / action expert MLP             \\
-      RMSNorm         & fixed-point square/mean + rsqrt 近似          & Transformer / action expert         \\
-      \bottomrule
-    \end{tabular}
-  \end{table}
 \end{frame}
 
 \end{document}
