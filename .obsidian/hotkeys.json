@@ -6,5 +6,13 @@
       ],
       "key": "W"
     }
+  ],
+  "slides:start": [
+    {
+      "modifiers": [
+        "Alt"
+      ],
+      "key": "P"
+    }
   ]
 }
