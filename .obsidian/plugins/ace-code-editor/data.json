@@ -4,7 +4,8 @@
     "tex",
     "bib",
     "bibtex",
-    "latex"
+    "latex",
+    "css"
   ],
   "lightTheme": "chrome",
   "darkTheme": "monokai",

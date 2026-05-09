@@ -9,7 +9,7 @@
   "enableMenu": false,
   "enablePointer": false,
   "enableTimeBar": false,
-  "theme": "black",
+  "theme": "white.css",
   "highlightTheme": "zenburn",
   "transition": "slide",
   "transitionSpeed": "default",
