@@ -1,6 +1,6 @@
 {
   "__VERSION__": 2,
-  "release.previous-version": "4.2.0",
+  "release.previous-version": "4.2.2",
   "playback.screenshot.folder-path": "/libs/media-lib/assets",
   "media-lib.folder-path": "libs/media-lib",
   "media-lib.auto-import": true
