@@ -138,16 +138,16 @@ CSV：
 
 图片：
 
-![Latency Compare](figures/latency_compare.png)
+![Latency Compare](PORJECTS/PI0近似计算/产出/实验报告/pi0_pytorch_experiment/01_preliminary_experiments/figures/latency_compare.png)
 
-![Error Compare](figures/error_compare.png)
+![Error Compare](PORJECTS/PI0近似计算/产出/实验报告/pi0_pytorch_experiment/01_preliminary_experiments/figures/error_compare.png)
 
-![Cosine Compare](figures/cosine_compare.png)
+![Cosine Compare](PORJECTS/PI0近似计算/产出/实验报告/pi0_pytorch_experiment/01_preliminary_experiments/figures/cosine_compare.png)
 
-![Model Size Compare](figures/model_size_compare.png)
+![Model Size Compare](PORJECTS/PI0近似计算/产出/实验报告/pi0_pytorch_experiment/01_preliminary_experiments/figures/model_size_compare.png)
 
-![Scale Sweep Latency](figures/scale_sweep_latency.png)
+![Scale Sweep Latency](PORJECTS/PI0近似计算/产出/实验报告/pi0_pytorch_experiment/01_preliminary_experiments/figures/scale_sweep_latency.png)
 
-![Scale Sweep Memory](figures/scale_sweep_memory.png)
+![Scale Sweep Memory](PORJECTS/PI0近似计算/产出/实验报告/pi0_pytorch_experiment/01_preliminary_experiments/figures/scale_sweep_memory.png)
 
-![Scale Sweep Error](figures/scale_sweep_error.png)
+![Scale Sweep Error](PORJECTS/PI0近似计算/产出/实验报告/pi0_pytorch_experiment/01_preliminary_experiments/figures/scale_sweep_error.png)

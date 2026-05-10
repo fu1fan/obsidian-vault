@@ -131,6 +131,6 @@ CSV：
 
 图片：
 
-![Real Weight Simplify Latency](figures/pi0_real_weight_simplify_latency.png)
+![Real Weight Simplify Latency](PORJECTS/PI0近似计算/产出/实验报告/pi0_pytorch_experiment/03_real_pi0_weight_simplify/figures/pi0_real_weight_simplify_latency.png)
 
-![Real Weight Simplify Error](figures/pi0_real_weight_simplify_error.png)
+![Real Weight Simplify Error](PORJECTS/PI0近似计算/产出/实验报告/pi0_pytorch_experiment/03_real_pi0_weight_simplify/figures/pi0_real_weight_simplify_error.png)

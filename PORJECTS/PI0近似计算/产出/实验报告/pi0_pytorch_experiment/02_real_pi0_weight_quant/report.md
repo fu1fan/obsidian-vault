@@ -109,8 +109,8 @@ CSV：
 
 图片：
 
-![Real Weight Quant Latency](figures/pi0_real_weight_quant_latency.png)
+![Real Weight Quant Latency](PORJECTS/PI0近似计算/产出/实验报告/pi0_pytorch_experiment/02_real_pi0_weight_quant/figures/pi0_real_weight_quant_latency.png)
 
-![Real Weight Quant Error](figures/pi0_real_weight_quant_error.png)
+![Real Weight Quant Error](PORJECTS/PI0近似计算/产出/实验报告/pi0_pytorch_experiment/02_real_pi0_weight_quant/figures/pi0_real_weight_quant_error.png)
 
-![Real Weight Quant Size](figures/pi0_real_weight_quant_size.png)
+![Real Weight Quant Size](PORJECTS/PI0近似计算/产出/实验报告/pi0_pytorch_experiment/02_real_pi0_weight_quant/figures/pi0_real_weight_quant_size.png)
