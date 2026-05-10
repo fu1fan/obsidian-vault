@@ -1,0 +1,597 @@
+/* Modifier styles based on settings */
+.hide-navigate-left .reveal .controls .navigate-left,
+.hide-navigate-right .reveal .controls .navigate-right,
+.hide-navigate-up .reveal .controls .navigate-up,
+.hide-navigate-down .reveal .controls .navigate-down,
+.hide-close-btn .slides-close-btn {
+  display: none !important;
+  /* Modified behavior */
+}
+
+.reveal .progress {
+  height: var(--progress-height, 10px) !important;
+  /* Default height, updated dynamically */
+}
+
+.left-align-bullets .reveal ol,
+.left-align-bullets .reveal dl,
+.left-align-bullets .reveal ul {
+  text-align: left !important;
+  margin: 0 0 0 1em !important;
+}
+
+/* Pan and Zoom styles */
+.enable-pan .reveal {
+  cursor: grab;
+}
+
+.enable-pan .reveal:active,
+body.is-panning .reveal {
+  cursor: grabbing;
+}
+
+
+/* Prevent text selection while panning */
+body.is-panning {
+  user-select: none;
+}
+
+/* Callout icon size matching in presentation mode */
+.reveal .callout-title {
+  align-items: center;
+  /* Better alignment for large icons */
+  gap: 0.5em;
+  /* Add more space between icon and title */
+}
+
+.reveal .callout-icon .svg-icon {
+  width: 0.9em;
+  /* Made slightly smaller than previous 1.1em */
+  height: 0.9em;
+  /* Ensure the stroke width scales properly too */
+  stroke-width: 2.2;
+}
+
+/* Ensure the slides can be transformed independently without being clipped */
+.reveal,
+.reveal .slides,
+.reveal .slides section {
+  /* Allow content to be panned/zoomed outside the default container bounds */
+  overflow: visible !important;
+}
+
+/* Ensure tables and other large content can expand beyond the slide width */
+.reveal .slides section>* {
+  max-width: none !important;
+}
+
+.reveal .slides section {
+  /* This ensures our independent translate/scale properties apply correctly to the slide itself */
+  transition: transform 0.8s ease, opacity 0.8s ease;
+}
+
+/* Font inheritance for slides */
+.reveal {
+  font-family: var(--slides-font-text, inherit) !important;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+  font-family: var(--slides-font-interface, var(--slides-font-text, inherit)) !important;
+}
+
+.reveal .controls,
+.reveal .progress,
+.reveal .slide-number {
+  font-family: var(--slides-font-interface, var(--slides-font-text, inherit)) !important;
+}
+
+
+
+/* Scoped to only this plugin's settings container to avoid affecting other plugins */
+
+
+/* ============================================
+   Reveal.js Theme Overrides
+   ============================================ */
+
+/* Black theme (default) */
+.slides-theme-black .reveal {
+  background: #191919 !important;
+  color: #fff !important;
+}
+
+.slides-theme-black .reveal h1,
+.slides-theme-black .reveal h2,
+.slides-theme-black .reveal h3,
+.slides-theme-black .reveal h4,
+.slides-theme-black .reveal h5,
+.slides-theme-black .reveal h6 {
+  color: #fff !important;
+}
+
+.slides-theme-black .reveal a {
+  color: #42affa !important;
+}
+
+.slides-theme-black .reveal .progress {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.slides-theme-black .reveal .progress span {
+  background: #42affa !important;
+}
+
+.slides-theme-black .reveal .controls button {
+  color: #42affa !important;
+}
+
+/* White theme */
+.slides-theme-white .reveal {
+  background: #fff !important;
+  color: #222 !important;
+}
+
+.slides-theme-white .reveal h1,
+.slides-theme-white .reveal h2,
+.slides-theme-white .reveal h3,
+.slides-theme-white .reveal h4,
+.slides-theme-white .reveal h5,
+.slides-theme-white .reveal h6 {
+  color: #222 !important;
+}
+
+.slides-theme-white .reveal a {
+  color: #2a76dd !important;
+}
+
+.slides-theme-white .reveal .progress {
+  background: rgba(0, 0, 0, 0.2) !important;
+}
+
+.slides-theme-white .reveal .progress span {
+  background: #2a76dd !important;
+}
+
+.slides-theme-white .reveal .controls button {
+  color: #2a76dd !important;
+}
+
+/* League theme */
+.slides-theme-league .reveal {
+  background: #1c1e20 !important;
+  color: #eee !important;
+}
+
+.slides-theme-league .reveal h1,
+.slides-theme-league .reveal h2,
+.slides-theme-league .reveal h3,
+.slides-theme-league .reveal h4,
+.slides-theme-league .reveal h5,
+.slides-theme-league .reveal h6 {
+  color: #eee !important;
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.5) !important;
+}
+
+.slides-theme-league .reveal a {
+  color: #13daec !important;
+}
+
+.slides-theme-league .reveal .progress {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.slides-theme-league .reveal .progress span {
+  background: #13daec !important;
+}
+
+.slides-theme-league .reveal .controls button {
+  color: #13daec !important;
+}
+
+/* Beige theme */
+.slides-theme-beige .reveal {
+  background: #f7f3de !important;
+  color: #333 !important;
+}
+
+.slides-theme-beige .reveal h1,
+.slides-theme-beige .reveal h2,
+.slides-theme-beige .reveal h3,
+.slides-theme-beige .reveal h4,
+.slides-theme-beige .reveal h5,
+.slides-theme-beige .reveal h6 {
+  color: #333 !important;
+}
+
+.slides-theme-beige .reveal a {
+  color: #8b743d !important;
+}
+
+.slides-theme-beige .reveal .progress {
+  background: rgba(0, 0, 0, 0.2) !important;
+}
+
+.slides-theme-beige .reveal .progress span {
+  background: #8b743d !important;
+}
+
+.slides-theme-beige .reveal .controls button {
+  color: #8b743d !important;
+}
+
+/* Night theme */
+.slides-theme-night .reveal {
+  background: #111 !important;
+  color: #eee !important;
+}
+
+.slides-theme-night .reveal h1,
+.slides-theme-night .reveal h2,
+.slides-theme-night .reveal h3,
+.slides-theme-night .reveal h4,
+.slides-theme-night .reveal h5,
+.slides-theme-night .reveal h6 {
+  color: #eee !important;
+}
+
+.slides-theme-night .reveal a {
+  color: #e7ad52 !important;
+}
+
+.slides-theme-night .reveal .progress {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.slides-theme-night .reveal .progress span {
+  background: #e7ad52 !important;
+}
+
+.slides-theme-night .reveal .controls button {
+  color: #e7ad52 !important;
+}
+
+/* Serif theme */
+.slides-theme-serif .reveal {
+  background: #f0f1eb !important;
+  color: #000 !important;
+}
+
+.slides-theme-serif .reveal h1,
+.slides-theme-serif .reveal h2,
+.slides-theme-serif .reveal h3,
+.slides-theme-serif .reveal h4,
+.slides-theme-serif .reveal h5,
+.slides-theme-serif .reveal h6 {
+  color: #383d3d !important;
+}
+
+.slides-theme-serif .reveal a {
+  color: #51483d !important;
+}
+
+.slides-theme-serif .reveal .progress {
+  background: rgba(0, 0, 0, 0.2) !important;
+}
+
+.slides-theme-serif .reveal .progress span {
+  background: #51483d !important;
+}
+
+.slides-theme-serif .reveal .controls button {
+  color: #51483d !important;
+}
+
+/* Simple theme */
+.slides-theme-simple .reveal {
+  background: #fff !important;
+  color: #000 !important;
+}
+
+.slides-theme-simple .reveal h1,
+.slides-theme-simple .reveal h2,
+.slides-theme-simple .reveal h3,
+.slides-theme-simple .reveal h4,
+.slides-theme-simple .reveal h5,
+.slides-theme-simple .reveal h6 {
+  color: #000 !important;
+}
+
+.slides-theme-simple .reveal a {
+  color: #00008b !important;
+}
+
+.slides-theme-simple .reveal .progress {
+  background: rgba(0, 0, 0, 0.2) !important;
+}
+
+.slides-theme-simple .reveal .progress span {
+  background: #00008b !important;
+}
+
+.slides-theme-simple .reveal .controls button {
+  color: #00008b !important;
+}
+
+/* Solarized theme */
+.slides-theme-solarized .reveal {
+  background: #fdf6e3 !important;
+  color: #657b83 !important;
+}
+
+.slides-theme-solarized .reveal h1,
+.slides-theme-solarized .reveal h2,
+.slides-theme-solarized .reveal h3,
+.slides-theme-solarized .reveal h4,
+.slides-theme-solarized .reveal h5,
+.slides-theme-solarized .reveal h6 {
+  color: #586e75 !important;
+}
+
+.slides-theme-solarized .reveal a {
+  color: #268bd2 !important;
+}
+
+.slides-theme-solarized .reveal .progress {
+  background: rgba(0, 0, 0, 0.2) !important;
+}
+
+.slides-theme-solarized .reveal .progress span {
+  background: #268bd2 !important;
+}
+
+.slides-theme-solarized .reveal .controls button {
+  color: #268bd2 !important;
+}
+
+/* Moon theme */
+.slides-theme-moon .reveal {
+  background: #002b36 !important;
+  color: #93a1a1 !important;
+}
+
+.slides-theme-moon .reveal h1,
+.slides-theme-moon .reveal h2,
+.slides-theme-moon .reveal h3,
+.slides-theme-moon .reveal h4,
+.slides-theme-moon .reveal h5,
+.slides-theme-moon .reveal h6 {
+  color: #eee8d5 !important;
+}
+
+.slides-theme-moon .reveal a {
+  color: #268bd2 !important;
+}
+
+.slides-theme-moon .reveal .progress {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.slides-theme-moon .reveal .progress span {
+  background: #268bd2 !important;
+}
+
+.slides-theme-moon .reveal .controls button {
+  color: #268bd2 !important;
+}
+
+/* Dracula theme */
+.slides-theme-dracula .reveal {
+  background: #282a36 !important;
+  color: #f8f8f2 !important;
+}
+
+.slides-theme-dracula .reveal h1,
+.slides-theme-dracula .reveal h2,
+.slides-theme-dracula .reveal h3,
+.slides-theme-dracula .reveal h4,
+.slides-theme-dracula .reveal h5,
+.slides-theme-dracula .reveal h6 {
+  color: #f8f8f2 !important;
+}
+
+.slides-theme-dracula .reveal a {
+  color: #ff79c6 !important;
+}
+
+.slides-theme-dracula .reveal .progress {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.slides-theme-dracula .reveal .progress span {
+  background: #ff79c6 !important;
+}
+
+.slides-theme-dracula .reveal .controls button {
+  color: #ff79c6 !important;
+}
+
+/* Sky theme */
+.slides-theme-sky .reveal {
+  background: #f7fbfc !important;
+  color: #333 !important;
+}
+
+.slides-theme-sky .reveal h1,
+.slides-theme-sky .reveal h2,
+.slides-theme-sky .reveal h3,
+.slides-theme-sky .reveal h4,
+.slides-theme-sky .reveal h5,
+.slides-theme-sky .reveal h6 {
+  color: #333 !important;
+}
+
+.slides-theme-sky .reveal a {
+  color: #3b759e !important;
+}
+
+.slides-theme-sky .reveal .progress {
+  background: rgba(0, 0, 0, 0.2) !important;
+}
+
+.slides-theme-sky .reveal .progress span {
+  background: #3b759e !important;
+}
+
+.slides-theme-sky .reveal .controls button {
+  color: #3b759e !important;
+}
+
+/* Blood theme */
+.slides-theme-blood .reveal {
+  background: #222 !important;
+  color: #eee !important;
+}
+
+.slides-theme-blood .reveal h1,
+.slides-theme-blood .reveal h2,
+.slides-theme-blood .reveal h3,
+.slides-theme-blood .reveal h4,
+.slides-theme-blood .reveal h5,
+.slides-theme-blood .reveal h6 {
+  color: #eee !important;
+}
+
+.slides-theme-blood .reveal a {
+  color: #a23 !important;
+}
+
+.slides-theme-blood .reveal .progress {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.slides-theme-blood .reveal .progress span {
+  background: #a23 !important;
+}
+
+.slides-theme-blood .reveal .controls button {
+  color: #a23 !important;
+}
+
+/* ============================================
+   Slide Transition Effects
+   ============================================ */
+
+/* None transition (instant) */
+.slides-transition-none .reveal .slides section {
+  transition: none !important;
+}
+
+/* Fade transition */
+.slides-transition-fade .reveal .slides section {
+  transition: opacity 0.5s ease !important;
+}
+
+.slides-transition-fade .reveal .slides section:not(.present) {
+  opacity: 0 !important;
+}
+
+.slides-transition-fade .reveal .slides section.present {
+  opacity: 1 !important;
+}
+
+/* Slide horizontal transition */
+.slides-transition-slide-horizontal .reveal .slides section {
+  transition: transform 0.5s ease, opacity 0.5s ease !important;
+}
+
+.slides-transition-slide-horizontal .reveal .slides section.future {
+  transform: translateX(100%) !important;
+  opacity: 0 !important;
+}
+
+.slides-transition-slide-horizontal .reveal .slides section.past {
+  transform: translateX(-100%) !important;
+  opacity: 0 !important;
+}
+
+.slides-transition-slide-horizontal .reveal .slides section.present {
+  transform: translateX(0) !important;
+  opacity: 1 !important;
+}
+
+/* Slide vertical transition */
+.slides-transition-slide-vertical .reveal .slides section {
+  transition: transform 0.5s ease, opacity 0.5s ease !important;
+}
+
+.slides-transition-slide-vertical .reveal .slides section.future {
+  transform: translateY(100%) !important;
+  opacity: 0 !important;
+}
+
+.slides-transition-slide-vertical .reveal .slides section.past {
+  transform: translateY(-100%) !important;
+  opacity: 0 !important;
+}
+
+.slides-transition-slide-vertical .reveal .slides section.present {
+  transform: translateY(0) !important;
+  opacity: 1 !important;
+}
+
+/* ============================================
+   Footer Text
+   ============================================ */
+
+.custom-slides-footer {
+  position: absolute;
+  /* Dynamically position above the progress bar with CSS calc */
+  bottom: calc(var(--progress-height, 10px) + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.55em;
+  color: rgba(100, 100, 100, 0.6);
+  font-family: var(--slides-font-text, inherit);
+  pointer-events: none;
+  z-index: 30;
+  white-space: nowrap;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+/* Footer text color for dark themes */
+.slides-theme-black .custom-slides-footer,
+.slides-theme-league .custom-slides-footer,
+.slides-theme-night .custom-slides-footer,
+.slides-theme-moon .custom-slides-footer,
+.slides-theme-dracula .custom-slides-footer,
+.slides-theme-blood .custom-slides-footer {
+  color: rgba(200, 200, 200, 0.4);
+}
+
+/* ============================================
+   Slide Numbers
+   ============================================ */
+
+.custom-slide-number {
+  position: absolute;
+  /* Dynamically position above the progress bar with CSS calc */
+  bottom: calc(var(--progress-height, 10px) + 12px);
+  font-size: 0.55em;
+  color: rgba(150, 150, 150, 0.7);
+  font-family: var(--slides-font-interface, var(--slides-font-text, inherit));
+  pointer-events: none;
+  z-index: 30;
+  line-height: 1;
+}
+
+.custom-slide-number.slide-number-bottom-left {
+  left: 24px;
+  right: auto;
+}
+
+.custom-slide-number.slide-number-bottom-right {
+  right: 24px;
+  left: auto;
+}
+
+/* When navigate buttons or close button are visible, push the number inward to prevent overlap */
+body:not(.hide-navigate-right) .custom-slide-number.slide-number-bottom-right,
+body:not(.hide-close-btn) .custom-slide-number.slide-number-bottom-right {
+  right: 140px;
+}

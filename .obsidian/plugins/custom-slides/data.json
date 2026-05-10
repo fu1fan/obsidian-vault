@@ -1,0 +1,19 @@
+{
+  "theme": "default",
+  "hideNavigateLeft": true,
+  "hideNavigateRight": true,
+  "hideNavigateUp": true,
+  "hideNavigateDown": true,
+  "hideCloseBtn": true,
+  "progressHeight": 10,
+  "leftAlignBullets": false,
+  "respectObsidianSettings": true,
+  "enablePan": true,
+  "enableZoom": true,
+  "enableWASD": true,
+  "transition": "slide-horizontal",
+  "footerText": "",
+  "showSlideNumbers": true,
+  "slideNumberPosition": "bottom-left",
+  "enableAutoFit": true
+}
