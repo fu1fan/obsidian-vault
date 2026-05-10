@@ -14,6 +14,6 @@
   "transition": "slide-horizontal",
   "footerText": "",
   "showSlideNumbers": true,
-  "slideNumberPosition": "bottom-left",
+  "slideNumberPosition": "bottom-right",
   "enableAutoFit": true
 }
