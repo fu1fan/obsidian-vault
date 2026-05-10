@@ -10,11 +10,11 @@
   "obsidian-front-matter-title-plugin",
   "obsidian-git",
   "virtual-linker",
-  "diagram-zoom-drag",
   "recent-files-obsidian",
   "editing-toolbar",
   "docxer",
   "ace-code-editor",
   "custom-slides",
-  "obsidian-columns"
+  "obsidian-columns",
+  "diagram-zoom-drag"
 ]
