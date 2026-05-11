@@ -6,7 +6,7 @@
   "hideNavigateDown": true,
   "hideCloseBtn": true,
   "progressHeight": 10,
-  "leftAlignBullets": false,
+  "leftAlignBullets": true,
   "respectObsidianSettings": true,
   "enablePan": true,
   "enableZoom": true,
