@@ -105,7 +105,8 @@
         "zh",
         "zh-TW"
       ],
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "api_key": ""
     },
     "google_translate": {
       "selected_languages": [
@@ -311,7 +312,8 @@
         "jv",
         "zh-CN"
       ],
-      "version": "1.1.0"
+      "version": "1.1.0",
+      "api_key": ""
     },
     "openai_translator": {
       "selected_languages": [
@@ -981,7 +983,8 @@
         "zxx",
         "zza"
       ],
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "api_key": ""
     },
     "deepl": {
       "selected_languages": [
@@ -1055,7 +1058,8 @@
           "en"
         ]
       },
-      "version": "1.0.3"
+      "version": "1.0.3",
+      "api_key": ""
     },
     "libre_translate": {
       "selected_languages": [
